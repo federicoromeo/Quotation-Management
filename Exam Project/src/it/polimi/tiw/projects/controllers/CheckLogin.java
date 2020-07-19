@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.polimi.tiw.projects.beans.Client;
+import it.polimi.tiw.projects.beans.User;
 import it.polimi.tiw.projects.dao.UserDAO;
 
 @WebServlet("/CheckLogin")
@@ -47,12 +47,11 @@ public class CheckLogin extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		String usrn = request.getParameter("username");
 		String pwd = request.getParameter("pwd");
 		UserDAO usr = new UserDAO(connection);
-		Client u = null;
+		User u = null;
 		try {
 			u = usr.checkCredentials(usrn, pwd);
 		} catch (SQLException e) {

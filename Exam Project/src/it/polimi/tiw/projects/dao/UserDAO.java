@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import it.polimi.tiw.projects.beans.Client;
+import it.polimi.tiw.projects.beans.User;
 
 public class UserDAO {
 	private Connection con;
@@ -13,7 +13,7 @@ public class UserDAO {
 		this.con = connection;
 	}
 
-	public Client checkCredentials(String usrn, String pwd) throws SQLException {
+	public User checkCredentials(String usrn, String pwd) throws SQLException {
 		String query = "SELECT  id, role, username FROM user  WHERE username = ? AND password =?";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, usrn);
@@ -23,7 +23,7 @@ public class UserDAO {
 					return null;
 				else {
 					result.next();
-					Client user = new Client();
+					User user = new User();
 					user.setId(result.getInt("id"));
 					user.setRole(result.getString("role"));
 					user.setUsername(result.getString("username"));

@@ -22,6 +22,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.ProjectStats;
+import it.polimi.tiw.projects.beans.User;
 import it.polimi.tiw.projects.beans.Client;
 import it.polimi.tiw.projects.dao.ClientDAO;
 
@@ -61,22 +62,22 @@ public class GoToHomeClient extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String loginpath = getServletContext().getContextPath() + "/index.html";
-		Client u = null;
+		User u = null;
 		HttpSession s = request.getSession();
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
 		} else {
-			u = (Client) s.getAttribute("user");
+			u = (User) s.getAttribute("user");
 			if (!u.getRole().equals("client")) {
 				response.sendRedirect(loginpath);
 				return;
 			}
 		}
 		ClientDAO wDao = new ClientDAO(connection, u.getId());
-		List<ProjectStats> projects = null;
+		//List<ProjectStats> projects = null;
 		try {
-			projects = wDao.findProjects();
+			//projects = wDao.findProjects();
 		} catch (SQLException e) {
 			// throw new ServletException(e);
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in worker's project database extraction");

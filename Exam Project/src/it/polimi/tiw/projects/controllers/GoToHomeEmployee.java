@@ -13,6 +13,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.polimi.tiw.projects.beans.Client;
+import it.polimi.tiw.projects.beans.User;
 
 @WebServlet("/GoToHomeEmployee")
 public class GoToHomeEmployee extends HttpServlet {
@@ -36,13 +37,13 @@ public class GoToHomeEmployee extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
 		String loginpath = getServletContext().getContextPath() + "/index.html";
-		Client u = null;
+		User u = null;
 		HttpSession s = request.getSession();
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
 		} else {
-			u = (Client) s.getAttribute("user");
+			u = (User) s.getAttribute("user");
 			if (!u.getRole().equals("employee")) {
 				response.sendRedirect(loginpath);
 				return;
