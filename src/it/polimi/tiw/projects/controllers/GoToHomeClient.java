@@ -21,7 +21,6 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.polimi.tiw.projects.beans.ProjectStats;
 import it.polimi.tiw.projects.beans.User;
 import it.polimi.tiw.projects.beans.Client;
 import it.polimi.tiw.projects.dao.ClientDAO;

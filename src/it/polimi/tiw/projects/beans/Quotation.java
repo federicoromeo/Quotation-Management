@@ -3,9 +3,9 @@ package it.polimi.tiw.projects.beans;
 public class Quotation {
 	
 	private String code;
-	private Client client;
-	private Employee employee;
-	private Product product;
+	private String clientCode;
+	private String employeeCode;
+	private String productCode;
 	
 	public void setCode(String code) {
 		this.code = code;
@@ -15,5 +15,28 @@ public class Quotation {
 		return code;
 	}
 
+	public String getClientCode() {
+		return clientCode;
+	}
+
+	public void setClientCode(String clientCode) {
+		this.clientCode = clientCode;
+	}
+
+	public String getEmployeeCode() {
+		return employeeCode;
+	}
+
+	public void setEmployeeCode(String employeeCode) {
+		this.employeeCode = employeeCode;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
 	
 }
