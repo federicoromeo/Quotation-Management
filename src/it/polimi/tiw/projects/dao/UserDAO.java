@@ -17,7 +17,7 @@ public class UserDAO {
 
 	public User checkCredentials(String usrn, String pwd) throws SQLException {
 		
-		String query = "SELECT username,password,role FROM user WHERE username = ? AND password = ?";
+		String query = "SELECT username,password,role FROM users WHERE username = ? AND password = ?";
 		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, usrn);
@@ -28,9 +28,8 @@ public class UserDAO {
 				else {
 					result.next();
 					User user = new User();
-					user.setCode(result.getString("code"));
+					user.setCode(result.getString("username"));
 					user.setRole(result.getString("role"));
-					user.setName(result.getString("name"));
 					return user;
 				}
 			}

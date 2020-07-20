@@ -49,7 +49,7 @@ public class CheckLogin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		String usrn = request.getParameter("username");
-		String pwd = request.getParameter("pwd");
+		String pwd = request.getParameter("password");
 		UserDAO usr = new UserDAO(connection);
 		User u = null;
 		try {

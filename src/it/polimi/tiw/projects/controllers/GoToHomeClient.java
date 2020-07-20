@@ -47,8 +47,8 @@ public class GoToHomeClient extends HttpServlet {
 		templateResolver.setSuffix(".html");
 		try {
 			ServletContext context = getServletContext();
-			String driver = context.getInitParameter("dbDriver");
-			String url = context.getInitParameter("dbUrl");
+			String driver = context.getInitParameter("dbDriver2");
+			String url = "jdbc:mysql://localhost:3306/project_db";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -64,7 +64,7 @@ public class GoToHomeClient extends HttpServlet {
 			throws ServletException, IOException {
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
-		HttpSession s = request.getSession();
+		HttpSession s = request.getSession(); 
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
@@ -80,7 +80,7 @@ public class GoToHomeClient extends HttpServlet {
 		try {
 			myQuotations = wDao.findMyQuotations();
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in worker's quotations database extraction");
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
 		}
 		String path = "/WEB-INF/HomeClient.html";
 		ServletContext servletContext = getServletContext();
