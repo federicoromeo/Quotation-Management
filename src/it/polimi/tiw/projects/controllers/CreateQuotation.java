@@ -99,10 +99,9 @@ public class CreateQuotation extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
 
 		}
-		// debugged on April 20, 2020 		
-				String ctxpath = getServletContext().getContextPath();
-				String path = ctxpath + "/GoToHomeAdmin";
-				response.sendRedirect(path);
+			String ctxpath = getServletContext().getContextPath();
+			String path = ctxpath + "/GoToHomeEmployee";
+			response.sendRedirect(path);
 	}
 
 	public void destroy() {
