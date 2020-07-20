@@ -18,34 +18,17 @@
 			
 			<form target="result" method="get">
 				<select name="product">
-								
-				<optgroup label="ball">
-					<option>Big ball</option>
-					<option>Medium ball</option>
-				    <option>Little ball</option>
-	     		</optgroup>
-				<optgroup label="house">
-					<option>Big house</option>
-					<option>Medium house</option>
-				    <option>Little house</option>
-	     		</optgroup>
-	     		<optgroup label="car">
-					<option>Big car</option>
-					<option>Medium car</option>
-				    <option>Little car</option>
-	     		</optgroup>
-	     		<optgroup label="lamp">
-					<option>Big lamp</option>
-					<option>Medium lamp</option>
-				    <option>Little lamp</option>
-	     		</optgroup>
-	     		<optgroup label="painting">
-					<option>Big painting</option>
-					<option>Medium painting</option>
-				    <option>Little painting</option>
-	     		</optgroup>
+					<option>palla</option>
+					<option>merda</option>
 				</select> 
 			</form>
+			<div th:switch="${product.value}" ></div>
+			<div th:case="palla"></div>
+			<div th:with="strList = ${ {'BIG', 'small', 'MeDiUm'} }">
+			  <ul>
+    			<li th:each="s : ${strList}" th:text="|${s}|"></li>
+  			  </ul>		
+			</div>
 				 	
 			
 			<!-- div th:each="p : ${products}">
