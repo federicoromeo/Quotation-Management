@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import it.polimi.tiw.projects.beans.Quotation;
 
 public class ClientDAO {
@@ -18,10 +17,15 @@ public class ClientDAO {
 		this.con = connection;
 		this.id = i;
 	}
-
+	
+	//first client functionality
 	public List<Quotation> findMyQuotations() throws SQLException {
+		
 		List<Quotation> myQuotations = new ArrayList<>();
-		String query = "SELECT Q.id as quotationId, Q.name,  A.usrid as userid, A.maxhours, COALESCE(sum(R.hours), 0) as workedhours FROM project P JOIN assignment A ON P.id=A.prjid LEFT JOIN report R ON R.prjid=P.id AND A.usrid=R.usrid where A.usrid = ? GROUP BY P.id, R.usrid;	";
+		
+		//query to extract my quotations
+		String query = "SELECT code FROM quotation WHERE clientCode= ?";
+		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
@@ -30,10 +34,26 @@ public class ClientDAO {
 					quotation.setCode(result.getString("quotationCode"));
 					quotation.setClientCode(this.id);
 					quotation.setEmployeeCode(result.getString("employeeCode"));
+					quotation.setPrice(result.getFloat("price"));
 					myQuotations.add(quotation);
 				}
 			}
 		}
 		return myQuotations;
 	}
+	
+	
+	//second client functionality
+	public void createQuotation(String code/*, String e, String c, Float p*/) throws SQLException {
+		
+		String query = "INSERT into quotation (code, employeeCode, clientCode, price)   VALUES(?,?,?,?)";
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setString(1, code);
+			//pstatement.setString(2, e);
+			//pstatement.setString(3, c);
+			//pstatement.setFloat(4, p);
+			pstatement.executeUpdate();
+		}
+	}
+	
 }

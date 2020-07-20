@@ -1,6 +1,7 @@
 package it.polimi.tiw.projects.controllers;
 
 import java.io.IOException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +13,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import it.polimi.tiw.projects.beans.Client;
 import it.polimi.tiw.projects.beans.User;
 
 @WebServlet("/GoToHomeEmployee")

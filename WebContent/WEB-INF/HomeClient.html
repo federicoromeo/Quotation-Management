@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Client's home</title>
+<!--link rel="stylesheet" type="text/css" media="all" href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" /-->
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+	<h1>Welcome to the Client's Home Page</h1>
+	<span th:text="${session.user.name}"></span>
+	<p>Please use the form below to enter a new Quotation</p>
+	<form th:action="@{/CreateQuotation}" method="POST">
+		<fieldset>
+			<legend>Choose a Product:</legend>
+			
+			<form target="result" method="get">
+				<select name="product">
+								
+				<optgroup label="ball">
+					<option>Big ball</option>
+					<option>Medium ball</option>
+				    <option>Little ball</option>
+	     		</optgroup>
+				<optgroup label="house">
+					<option>Big house</option>
+					<option>Medium house</option>
+				    <option>Little house</option>
+	     		</optgroup>
+	     		<optgroup label="car">
+					<option>Big car</option>
+					<option>Medium car</option>
+				    <option>Little car</option>
+	     		</optgroup>
+	     		<optgroup label="lamp">
+					<option>Big lamp</option>
+					<option>Medium lamp</option>
+				    <option>Little lamp</option>
+	     		</optgroup>
+	     		<optgroup label="painting">
+					<option>Big painting</option>
+					<option>Medium painting</option>
+				    <option>Little painting</option>
+	     		</optgroup>
+				</select> 
+			</form>
+				 	
+			
+			<!-- div th:each="p : ${products}">
+				<span th:class="(${p.workedhours} > ${p.maxhours})? 'toohigh'"
+					th:text="${'Project ' + p.name + ' - Max hours ' + p.maxhours + ' - Worked hours ' + p.workedhours}">
+				</span>
+				<input type="radio" name="projectid" th:value="${p.id}" required/>
+			</div-->
+		</fieldset>
+		Specify quotation code: <input type="text" name="quotationCode" required> <br>
+		Specify employee code (if you want): <input type="text" name="employeeCode"> <br>
+		Specify price: <input type="text" name="price" required> <br>
+		<input type="hidden" name="clientCode" th:value="${session.user.code}">
+		<input type="submit" name="submit" value="Submit Quotation">
+	</form>
+
+</body>
+</html>

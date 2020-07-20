@@ -1,13 +1,9 @@
 package it.polimi.tiw.projects.controllers;
 
 import java.io.IOException;
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,18 +20,18 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.User;
-import it.polimi.tiw.projects.beans.Quotation;
 import it.polimi.tiw.projects.dao.ClientDAO;
+import it.polimi.tiw.projects.dao.EmployeeDAO;
 
-@WebServlet("/GoToHomeClient")
-public class GoToHomeClient extends HttpServlet {
+@WebServlet("/CreateQuotation")
+public class CreateQuotation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
 	private TemplateEngine templateEngine;
 
-	public GoToHomeClient() {
+	public CreateQuotation() {
 		super();
-		// Auto-generated constructor stub
+		// TODO Auto-generated constructor stub
 	}
 
 	public void init() throws ServletException {
@@ -62,35 +58,51 @@ public class GoToHomeClient extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		doPost(request, response);
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
+		
+		
+		//verifico che ci sia la sessione e che contenga un bean utente
+		
+		//TOLGO: uso filtri
+		
 		HttpSession s = request.getSession();
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
 		} else {
 			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("client")) {
+			if (!u.getRole().equals("admin")) {
 				response.sendRedirect(loginpath);
 				return;
 			}
 		}
-		ClientDAO wDao = new ClientDAO(connection, u.getCode());
-		List<Quotation> myQuotations = new ArrayList<>();
-		try {
-			myQuotations = wDao.findMyQuotations();
-		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in worker's quotations database extraction");
+		
+		////////////////////////////////////////
+		
+		
+		String Q = request.getParameter("quotationCode");
+		if (Q == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing project code");
 		}
-		String path = "/WEB-INF/HomeClient.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("myQuotations", myQuotations);
-		templateEngine.process(path, ctx, response.getWriter());
-	}
+		String userid = u.getCode();
+		ClientDAO cDAO = new ClientDAO(connection, userid);
+		try {
+			cDAO.createQuotation(Q);
+		} catch (SQLException e) {
+			// throw new ServletException(e);
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-		doGet(request, response);
+		}
+		// debugged on April 20, 2020 		
+				String ctxpath = getServletContext().getContextPath();
+				String path = ctxpath + "/GoToHomeAdmin";
+				response.sendRedirect(path);
 	}
 
 	public void destroy() {

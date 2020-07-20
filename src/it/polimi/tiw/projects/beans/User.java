@@ -1,32 +1,32 @@
 package it.polimi.tiw.projects.beans;
 
 public class User {
-	private String id;
+	private String code;
 	private String role;
-	private String username;
+	private String name;
 
-	public String getId() {
-		return id;
+	public String getCode() {
+		return code;
 	}
 
 	public String getRole() {
 		return role;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 	
-	public void setId(String i) {
-		id = i;
+	public void setCode(String i) {
+		code = i;
 	}
 
 	public void setRole(String r) {
 		role = r;
 	}
 
-	public void setUsername(String un) {
-		username = un;
+	public void setName(String n) {
+		name = n;
 	}
 
 }
