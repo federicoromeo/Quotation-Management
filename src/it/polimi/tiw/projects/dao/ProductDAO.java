@@ -16,8 +16,7 @@ public class ProductDAO {
 	//private Image image;
 	
 	
-	public ProductDAO(String name, Connection connection) {
-		this.name = name;
+	public ProductDAO(Connection connection) {
 		this.connection = connection;
 	}
 

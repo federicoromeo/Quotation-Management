@@ -1,6 +1,7 @@
 package it.polimi.tiw.projects.dao;
 
 import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 
@@ -9,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import it.polimi.tiw.projects.beans.Option;
 import it.polimi.tiw.projects.beans.Product;
 import it.polimi.tiw.projects.beans.Quotation;
 
@@ -48,37 +51,51 @@ public class ClientDAO {
 	
 	
 	//second client functionality
-	public void createQuotation(String code/*, String e, String c, Float p*/) throws SQLException {
+	public void createQuotation(String productCode, String clientCode) throws SQLException {
 		
-		String query = "INSERT into quotation (code, employee_code, client_code, product_code, price)   VALUES(?,?,?,?,?)";
+		String query = "INSERT into quotation (code, employee_code, client_code, product_code, option_code, price)   VALUES(?,?,?,?,?,?)";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, code);
+			pstatement.setString(1, productCode/*Integer.toString(new Random().nextInt(1000))*/);
 			pstatement.setString(2, "null");
-			pstatement.setString(3, id);
-			pstatement.setString(4, "null");
-			pstatement.setFloat(5, 0);
+			pstatement.setString(3, clientCode);
+			pstatement.setString(4, productCode);
+			Option o = findOption();
+			pstatement.setString(5, o.getName());
+			pstatement.setFloat(6, 0);
 			pstatement.executeUpdate();
 		}
 	}
 
+	private Option findOption() {
+		String query = "SELECT name,code FROM option WHERE code = ?";
+		Option o = null;
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setString(1, "BIG");
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					o = new Option();
+					o.setName(result.getString("name"));
+					o.setCode(result.getString("code"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return o;
+	}
+
 	public List<Product> selectAvailableProducts() throws SQLException{
 		
-		String query = "INSERT into product (code,image,name)   VALUES(?,?,?)";
-		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, "1");
-			pstatement.setBlob(2, new FileInputStream("C:\\Users\\filip\\Pictures\\Sfondi\\37567.jpg"));
-			pstatement.setString(3, "palla");
-			pstatement.executeUpdate();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} 
-		
-		query = "SELECT code,name FROM product";
+		String query = "SELECT code,name FROM product";
 		List<Product> productsList = new ArrayList<>();
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
-					System.out.println("entro");
 					Product product = new Product();
 					product.setCode(result.getString("code"));
 					product.setName(result.getString("name"));
@@ -87,6 +104,31 @@ public class ClientDAO {
 			}
 		}
 		return productsList;
+	}
+
+	
+	public List<Option> selectAvailableOptions() {
+		
+		String query = "SELECT code,name,onsale FROM option";
+		List<Option> optionsList = new ArrayList<>();
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					Option option = new Option();
+					option.setCode(result.getString("code"));
+					option.setName(result.getString("name"));
+					//product.setName(result.getString("onsale"));
+					optionsList.add(option);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return optionsList;
 	}
 	
 }

@@ -8,10 +8,6 @@ public class Option {
 	//private Image image;
 	
 	
-	public Option(String name) {
-		this.name = name;
-	}
-	
 	public void setCode(String code) {
 		this.code = code;
 	}

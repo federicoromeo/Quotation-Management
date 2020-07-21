@@ -59,19 +59,16 @@ public class CreateQuotation extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		doPost(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
-		
-		
+				
 		//verifico che ci sia la sessione e che contenga un bean utente
-		
 		//TOLGO: uso filtri
 		
 		System.out.println("faccio doPost");
@@ -90,19 +87,19 @@ public class CreateQuotation extends HttpServlet {
 				return;
 			}
 		}
-		
 		////////////////////////////////////////
 		
-		
-		String Q = request.getParameter("quotationCode");
-		System.out.println("Q : " + Q);
-		if (Q == null) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing project code");
+		String productCode = request.getParameter("productCode");
+		String clientCode = request.getParameter("clientCode");
+		System.out.println("prod code: " + productCode);
+
+		if (productCode == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product code");
 		}
 		String userid = u.getCode();
 		ClientDAO cDAO = new ClientDAO(connection, userid);
 		try {
-			cDAO.createQuotation(Q);
+			cDAO.createQuotation(productCode,clientCode);
 		} catch (SQLException e) {
 			throw new ServletException(e);
 			//response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
@@ -114,7 +111,7 @@ public class CreateQuotation extends HttpServlet {
 	}
 
 	
-	public List<Option> giveOptions(Product p){
+	/*public List<Option> giveOptions(Product p){
 		
 		List<Option> options = new ArrayList<>();
 		ProductDAO pd = new ProductDAO(p.getName(), connection);
@@ -145,7 +142,7 @@ public class CreateQuotation extends HttpServlet {
 		}
 		
 		return options;
-	}
+	}*/
 	
 	
 	public void destroy() {

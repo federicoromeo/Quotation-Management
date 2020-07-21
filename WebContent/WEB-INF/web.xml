@@ -3,7 +3,7 @@
   <display-name>Exam Project</display-name>
   <context-param>
     <param-name>dbUrl</param-name>
-    <param-value>jdbc:mysql://localhost:3306/myuserdb</param-value>
+    <param-value>jdbc:mysql://localhost:3306/userdb</param-value>
   </context-param>
   <context-param>
     <param-name>dbUser</param-name>
@@ -11,7 +11,7 @@
   </context-param>
   <context-param>
     <param-name>dbPassword</param-name>
-    <param-value>Filippo.Mysql.98</param-value>
+    <param-value>Mmmmmmmmmmeo98</param-value>
   </context-param>
   <context-param>
     <param-name>dbDriver</param-name>

@@ -8,16 +8,6 @@ public class Product {
 	private String name;
 	//private Image image;
 	
-	
-	
-	
-	public Product(String name) {
-		this.name = name;
-		ProductDAO pd = new ProductDAO(name);
-		String code = pd.insertProductInDB();
-	}
-
-
 	public void setCode(String code) {
 		this.code = code;
 	}

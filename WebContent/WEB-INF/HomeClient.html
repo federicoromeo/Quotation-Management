@@ -11,45 +11,16 @@
 	</div>
 	<h1>Welcome to the Client's Home Page</h1>
 	<span th:text="${session.user.name}"></span>
+	
 	<p>Please use the form below to enter a new Quotation</p>
-	<form th:action="@{/CreateQuotation}" th:object="${quotationCode}" method="POST">
+	<form th:action="@{/CreateQuotation}" th:object="${form}" method="POST">
 		<fieldset>
-		  <legend>Choose a Product:</legend>
-    		<select th:each="p: ${products}">
-      			<option th:text="${p}">o1</option>
-    		</select>
 			<legend>Choose a Product:</legend>
-			
-<<<<<<< HEAD
-			<form target="result" method="get">
-				<select name="product">
-					<option value="palla">palla</option>
-					<option value="lamp">lamp</option>
-					<option value="computer">computer</option>
-				</select> 
-			</form>
-			<!--div th:switch="${product.value}" ></div>
-			<div th:case="palla"></div>
-			<div th:with="strList = ${ {'BIG', 'small', 'MeDiUm'} }">
-			  <ul>
-    			<li th:each="s : ${strList}" th:text="|${s}|"></li>
-  			  </ul>		
-			</div>
-			
-			
-			<!-- div th:each="p : ${products}">
-				<span th:class="(${p.workedhours} > ${p.maxhours})? 'toohigh'"
-					th:text="${'Project ' + p.name + ' - Max hours ' + p.maxhours + ' - Worked hours ' + p.workedhours}">
-				</span>
-				<input type="radio" name="projectid" th:value="${p.id}" required/>
-			</div-->
-=======
-				 	
->>>>>>> cf69cf0d71f9f57da25a305ebff3e1dfa3635320
+    		<select name="productCode" th:block="p: ${products}" th:text="${p.name}">
+      				<option name="optionCode" th:each="o: ${options}" th:text="${o.name}"> markUpOption	</option>      			
+    		</select>
 		</fieldset>
-		Specify quotation code: <input type="text" name="quotationCode" required> <br>
-		Specify employee code (if you want): <input type="text" name="employeeCode"> <br>
-		Specify price: <input type="text" name="price" required> <br>
+	
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
 	</form>
