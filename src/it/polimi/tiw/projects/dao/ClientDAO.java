@@ -37,6 +37,8 @@ public class ClientDAO {
 					quotation.setPrice(result.getFloat("price"));
 					myQuotations.add(quotation);
 				}
+			}catch(Exception ignore) {
+				
 			}
 		}
 		return myQuotations;
@@ -49,9 +51,9 @@ public class ClientDAO {
 		String query = "INSERT into quotation (code, employeeCode, clientCode, price)   VALUES(?,?,?,?)";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, code);
-			//pstatement.setString(2, e);
-			//pstatement.setString(3, c);
-			//pstatement.setFloat(4, p);
+			pstatement.setString(2, null);
+			pstatement.setString(3, id);
+			pstatement.setString(4, null);
 			pstatement.executeUpdate();
 		}
 	}

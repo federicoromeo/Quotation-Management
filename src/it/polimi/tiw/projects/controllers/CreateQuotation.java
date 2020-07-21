@@ -71,6 +71,8 @@ public class CreateQuotation extends HttpServlet {
 		
 		//TOLGO: uso filtri
 		
+		System.out.println("faccio doPost");
+		
 		HttpSession s = request.getSession();
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
@@ -100,7 +102,7 @@ public class CreateQuotation extends HttpServlet {
 
 		}
 			String ctxpath = getServletContext().getContextPath();
-			String path = ctxpath + "/GoToHomeEmployee";
+			String path = ctxpath + "/GoToHomeClient";
 			response.sendRedirect(path);
 	}
 

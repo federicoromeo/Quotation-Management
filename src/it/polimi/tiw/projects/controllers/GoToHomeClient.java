@@ -77,11 +77,11 @@ public class GoToHomeClient extends HttpServlet {
 		}
 		ClientDAO wDao = new ClientDAO(connection, u.getCode());
 		List<Quotation> myQuotations = new ArrayList<>();
-		/*try {
+		try {
 			myQuotations = wDao.findMyQuotations();
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
-		}*/
+		}
 		String path = "/WEB-INF/HomeClient.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
