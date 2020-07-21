@@ -18,17 +18,14 @@
     		<select th:each="p: ${products}">
       			<option th:text="${p}">o1</option>
     		</select>
+			<legend>Choose a Product:</legend>
+			
+				 	
 		</fieldset>
 		Specify quotation code: <input type="text" name="quotationCode" required> <br>
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
 	</form>
-	
-	<!-- <h1>My quotations:</h1>
-	<ul th:each="quotation : ${myQuotations}">
-		<li th:text="${quotation.code}"></li>
-		<li></li>
-	</ul>-->
 
 </body>
 </html>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,13 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.User;
+import it.polimi.tiw.projects.beans.Option;
+import it.polimi.tiw.projects.beans.Product;
 import it.polimi.tiw.projects.dao.ClientDAO;
-import it.polimi.tiw.projects.dao.EmployeeDAO;
+import it.polimi.tiw.projects.dao.ProductDAO;
 
 @WebServlet("/CreateQuotation")
 public class CreateQuotation extends HttpServlet {
@@ -110,6 +113,41 @@ public class CreateQuotation extends HttpServlet {
 			response.sendRedirect(path);
 	}
 
+	
+	public List<Option> giveOptions(Product p){
+		
+		List<Option> options = new ArrayList<>();
+		ProductDAO pd = new ProductDAO(p.getName(), connection);
+		try {
+			pd.setCode(pd.findProduct());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		
+		switch(p.getName()) {
+			case "palla": {
+				Option o1 = new Option("da basket");
+				Option o2 = new Option("da calcio");
+				Option o3 = new Option("da tennis");
+				options.add(o1);
+				options.add(o2);
+				options.add(o3);
+			}
+			case "lampada": {
+				Option o1 = new Option("rossa");
+				Option o2 = new Option("a led");
+				Option o3 = new Option("verde");
+				options.add(o1);
+				options.add(o2);
+				options.add(o3);
+			}
+		}
+		
+		return options;
+	}
+	
+	
 	public void destroy() {
 		try {
 			if (connection != null) {
