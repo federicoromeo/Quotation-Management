@@ -44,7 +44,7 @@ public class CreateQuotation extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = context.getInitParameter("dbUrl");
+			String url = "jdbc:mysql://localhost:3306/project_db";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -74,12 +74,15 @@ public class CreateQuotation extends HttpServlet {
 		System.out.println("faccio doPost");
 		
 		HttpSession s = request.getSession();
+		System.out.println("isNew() : " + s.isNew());
+		System.out.println("user(createQuot) : " + s.getAttribute("user").toString());
+		System.out.println("user(createQuot) : " + s.getAttribute("user") == null);
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
 		} else {
 			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("admin")) {
+			if (!u.getRole().equals("client")) {
 				response.sendRedirect(loginpath);
 				return;
 			}
@@ -89,6 +92,7 @@ public class CreateQuotation extends HttpServlet {
 		
 		
 		String Q = request.getParameter("quotationCode");
+		System.out.println("Q : " + Q);
 		if (Q == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing project code");
 		}
@@ -97,8 +101,8 @@ public class CreateQuotation extends HttpServlet {
 		try {
 			cDAO.createQuotation(Q);
 		} catch (SQLException e) {
-			// throw new ServletException(e);
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
+			throw new ServletException(e);
+			//response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
 
 		}
 			String ctxpath = getServletContext().getContextPath();

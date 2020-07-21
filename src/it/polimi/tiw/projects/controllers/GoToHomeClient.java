@@ -24,6 +24,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.User;
+import it.polimi.tiw.projects.beans.Product;
 import it.polimi.tiw.projects.beans.Quotation;
 import it.polimi.tiw.projects.dao.ClientDAO;
 
@@ -62,9 +63,11 @@ public class GoToHomeClient extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("sono in GoToHomeClient");
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
 		HttpSession s = request.getSession(); 
+		System.out.println("user(gotoclient) : " + s.getAttribute("user").toString());
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
@@ -77,15 +80,27 @@ public class GoToHomeClient extends HttpServlet {
 		}
 		ClientDAO wDao = new ClientDAO(connection, u.getCode());
 		List<Quotation> myQuotations = new ArrayList<>();
+		List<Product> availableProducts = new ArrayList<>();
 		try {
 			myQuotations = wDao.findMyQuotations();
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
 		}
+		try {
+			availableProducts = wDao.selectAvailableProducts();
+		} catch (SQLException e) {
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in products database extraction");
+		}
 		String path = "/WEB-INF/HomeClient.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("myQuotations", myQuotations);
+		List<String> productsNames = new ArrayList<>();
+		for(Product p:availableProducts) {
+			productsNames.add(p.getName());
+			System.out.println("name : " + p.getName());
+		}
+		ctx.setVariable("products", productsNames);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

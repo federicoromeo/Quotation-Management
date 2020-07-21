@@ -28,7 +28,7 @@ public class CheckLogin extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = context.getInitParameter("dbUrl");
+			String url = "jdbc:mysql://localhost:3306/myuserdb";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -55,7 +55,7 @@ public class CheckLogin extends HttpServlet {
 		try {
 			u = usr.checkCredentials(usrn, pwd);
 		} catch (SQLException e) {
-			// throw new ServletException(e); for debugging
+			//throw new ServletException(e);// for debugging
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database credential checking");
  		}
 		String path = getServletContext().getContextPath();

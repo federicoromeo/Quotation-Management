@@ -12,28 +12,23 @@
 	<h1>Welcome to the Client's Home Page</h1>
 	<span th:text="${session.user.name}"></span>
 	<p>Please use the form below to enter a new Quotation</p>
-	<form th:action="@{/CreateQuotation}" method="POST">
+	<form th:action="@{/CreateQuotation}" th:object="${quotationCode}" method="POST">
 		<fieldset>
-			<legend>Choose a Product:</legend>
-			
-			<form target="result" method="get">
-				<select name="product" th:block>
-					<option>palla</option>
-					<option>merda</option>
-				</select> 
-			</form>
-				 	
+		  <legend>Choose a Product:</legend>
+    		<select th:each="p: ${products}">
+      			<option th:text="${p}">o1</option>
+    		</select>
 		</fieldset>
 		Specify quotation code: <input type="text" name="quotationCode" required> <br>
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
 	</form>
 	
-	<h1>My quotations:</h1>
+	<!-- <h1>My quotations:</h1>
 	<ul th:each="quotation : ${myQuotations}">
 		<li th:text="${quotation.code}"></li>
 		<li></li>
-	</ul>
+	</ul>-->
 
 </body>
 </html>
