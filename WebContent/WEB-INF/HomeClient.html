@@ -12,10 +12,15 @@
 	<h1>Welcome to the Client's Home Page</h1>
 	<span th:text="${session.user.name}"></span>
 	<p>Please use the form below to enter a new Quotation</p>
-	<form th:action="@{/CreateQuotation}" method="POST">
+	<form th:action="@{/CreateQuotation}" th:object="${quotationCode}" method="POST">
 		<fieldset>
+		  <legend>Choose a Product:</legend>
+    		<select th:each="p: ${products}">
+      			<option th:text="${p}">o1</option>
+    		</select>
 			<legend>Choose a Product:</legend>
 			
+<<<<<<< HEAD
 			<form target="result" method="get">
 				<select name="product">
 					<option value="palla">palla</option>
@@ -38,6 +43,9 @@
 				</span>
 				<input type="radio" name="projectid" th:value="${p.id}" required/>
 			</div-->
+=======
+				 	
+>>>>>>> cf69cf0d71f9f57da25a305ebff3e1dfa3635320
 		</fieldset>
 		Specify quotation code: <input type="text" name="quotationCode" required> <br>
 		Specify employee code (if you want): <input type="text" name="employeeCode"> <br>
