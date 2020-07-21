@@ -16,8 +16,8 @@
 	<form th:action="@{/CreateQuotation}" th:object="${form}" method="POST">
 		<fieldset>
 			<legend>Choose a Product:</legend>
-    		<select name="productCode" th:block="p: ${products}" th:text="${p.name}">
-      				<option name="optionCode" th:each="o: ${options}" th:text="${o.name}"> markUpOption	</option>      			
+    		<select name="productCode">
+      				<option name="optionCode" th:each="p: ${products}" th:text="${p.name}"> markUpOption	</option>      			
     		</select>
 		</fieldset>
 	

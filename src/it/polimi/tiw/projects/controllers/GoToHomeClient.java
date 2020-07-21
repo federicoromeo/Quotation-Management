@@ -96,7 +96,9 @@ public class GoToHomeClient extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in products database extraction");
 		}
 		
-		availableOptions = wDao.selectAvailableOptions();
+		for(Product p:availableProducts) {
+			p.setOptionsList(wDao.selectAvailableOptions(p));
+		}
 		
 		String path = "/WEB-INF/HomeClient.html";
 		ServletContext servletContext = getServletContext();

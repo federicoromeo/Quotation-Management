@@ -107,17 +107,15 @@ public class ClientDAO {
 	}
 
 	
-	public List<Option> selectAvailableOptions() {
+	public List<Option> selectAvailableOptions(Product p) {
 		
-		String query = "SELECT code,name,onsale FROM option";
+		String query = "SELECT code,name,onsale FROM option WHERE product_code = ?";
 		List<Option> optionsList = new ArrayList<>();
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setString(1, p.getCode());
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
-					Option option = new Option();
-					option.setCode(result.getString("code"));
-					option.setName(result.getString("name"));
-					//product.setName(result.getString("onsale"));
+					Option option = new Option(result.getString("code"),result.getString("name"),p.getCode());
 					optionsList.add(option);
 				}
 			} catch (SQLException e) {
@@ -128,7 +126,7 @@ public class ClientDAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return optionsList;
+		return p.getOptionsList();
 	}
 	
 }
