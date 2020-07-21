@@ -17,6 +17,7 @@
 			<legend>Choose a Product:</legend>
 			
 			<form target="result" method="get">
+<<<<<<< HEAD
 				<select name="product">
 					<option value="palla">palla</option>
 					<option value="lamp">lamp</option>
@@ -38,13 +39,25 @@
 				</span>
 				<input type="radio" name="projectid" th:value="${p.id}" required/>
 			</div-->
+=======
+				<select name="product" th:block>
+					<option>palla</option>
+					<option>merda</option>
+				</select> 
+			</form>
+				 	
+>>>>>>> 1098261dc8407276c9c16d8459ec7b271fad10a8
 		</fieldset>
 		Specify quotation code: <input type="text" name="quotationCode" required> <br>
-		Specify employee code (if you want): <input type="text" name="employeeCode"> <br>
-		Specify price: <input type="text" name="price" required> <br>
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
 	</form>
+	
+	<h1>My quotations:</h1>
+	<ul th:each="quotation : ${myQuotations}">
+		<li th:text="${quotation.code}"></li>
+		<li></li>
+	</ul>
 
 </body>
 </html>
