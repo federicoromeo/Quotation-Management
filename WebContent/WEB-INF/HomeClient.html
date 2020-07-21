@@ -17,10 +17,18 @@
 		<fieldset>
 			<legend>Choose a Product:</legend>
     		<select name="productCode">
-      				<option name="optionCode" th:each="p: ${products}" th:text="${p.name}"> markUpOption	</option>      			
+      				<option th:each="p: ${products}" th:text="${p.name}"> markUpOption 	</option>      			
     		</select>
+    		<input type="checkbox" th:each="o: ${options}" th:text="${o.name}">>
 		</fieldset>
 	
+		<fieldset>
+			<legend>Choose aN oPTION:</legend>
+    		<select name="optionCode">
+      				<option th:each="o: ${options}" th:text="${o.name}">	</option>      			
+    		</select>
+		</fieldset>
+		
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
 	</form>
