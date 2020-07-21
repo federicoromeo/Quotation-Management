@@ -2,22 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Worker assignment to project</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+<title>Price Quotation</title>
 </head>
 <body>
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-	<h1>Welcome to the Worker Assignment page</h1>
-	Nice to see you again
-	<span th:text="${session.user.username}">Federico</span>
-	<p>
-		Please use the lists below to assign workers project <span
-			th:text="${default}"> 11 </span>
-	</p>
-	<table>
+	
+	<h1>Welcome to the Price Quotation Page</h1>
+
+	<span>User: </span>
+	<span th:text="${session.user.username}"></span><br>
+	
+	<span>Quotation Code: </span>
+	<span th:text="${session.user.username}"></span>
+	
+	<p>	Please use the form below to assign price </p>
+	
+
+	<form action="PriceQuotation" method="POST">
+		PRICE: <input type="text" name="price"><br> 
+			   <input type="submit" value="priceQuotation">
+	</form>	
+	<!-- table>
 		<tr>
 			<td>
 				<table border="1">
@@ -57,6 +64,6 @@
 				</div>
 			</td>
 		</tr>
-	</table>
+	</table-->
 </body>
 </html>

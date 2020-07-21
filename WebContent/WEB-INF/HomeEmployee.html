@@ -3,21 +3,49 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Employee's home</title>
+<style>
+	table, th, td {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	}
+	th, td {
+	  padding: 5px;
+	  text-align: left;
+	}
+</style>
 </head>
 <body>
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
+	
 	<h1>Welcome to the Employee Home page</h1>
-	Nice to see you again
-	<span th:text="${session.user.username}">Federico</span>
-	<p>Please use the form to create a new project</p>
-	<form
-		th:action="@{/CreateProject}"
-		method="POST">
-		<input type="text" name="projectname" required> 
-		<input type="submit" name="create" value="Create Project" >
+	
+	<span th:text="${session.user.name}"></span>
+	
+	
+	<p>My Quotations:</p>
+	<table style="width:100%">
+		<tr>
+		    <th>Code</th>
+		    <th>ClientCode</th>
+	    </tr>
+	    <tr th:each="q: ${myQuotations}">
+		    <td th:text="${q.code}">aa</td>
+		    <td th:text="${q.clientCode}">bb</td>
+	    </tr>
+  
+	</table>
+	
+	
+	<p>Never Assigned Quotations:</p>
+	<form th:action="@{/PriceQuotation}" method="POST">
+		<select th:each="q: ${neverAssignedQuotations}">
+			<option th:text="${q.code} + ${q.clientCode}">o1</option>
+		</select>
 	</form>
-	<a href="ProjectManagement.html" th:href="@{/GoToProjectManagement}">Go to worker assignment</a>
+	<a href="PriceQuotation.html" th:href="@{/GoToPriceQuotation}">Price the selected quotation!</a>
+	
+	
 </body>
 </html>
