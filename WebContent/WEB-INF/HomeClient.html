@@ -18,18 +18,19 @@
 			
 			<form target="result" method="get">
 				<select name="product">
-					<option>palla</option>
-					<option>merda</option>
+					<option value="palla">palla</option>
+					<option value="lamp">lamp</option>
+					<option value="computer">computer</option>
 				</select> 
 			</form>
-			<div th:switch="${product.value}" ></div>
+			<!--div th:switch="${product.value}" ></div>
 			<div th:case="palla"></div>
 			<div th:with="strList = ${ {'BIG', 'small', 'MeDiUm'} }">
 			  <ul>
     			<li th:each="s : ${strList}" th:text="|${s}|"></li>
   			  </ul>		
-			</div>
-				 	
+			</div-->
+			
 			
 			<!-- div th:each="p : ${products}">
 				<span th:class="(${p.workedhours} > ${p.maxhours})? 'toohigh'"

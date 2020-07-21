@@ -4,9 +4,13 @@ public class Option {
 
 	private String code;
 	private String name;
-	private boolean normal;
 	private boolean onSale;
 	//private Image image;
+	
+	
+	public Option(String name) {
+		this.name = name;
+	}
 	
 	public void setCode(String code) {
 		this.code = code;
@@ -22,14 +26,6 @@ public class Option {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isNormal() {
-		return normal;
-	}
-
-	public void setNormal(boolean normal) {
-		this.normal = normal;
 	}
 
 	public boolean isOnSale() {
