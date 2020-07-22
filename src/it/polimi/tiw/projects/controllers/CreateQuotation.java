@@ -47,7 +47,7 @@ public class CreateQuotation extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = "jdbc:mysql://localhost:3306/project_db";
+			String url = "jdbc:mysql://localhost:3306/mydb";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -87,30 +87,71 @@ public class CreateQuotation extends HttpServlet {
 		}
 		////////////////////////////////////////
 		
+		String[] selectedOptions = request.getParameterValues("optionsList");
 		String productCode = request.getParameter("productCode");
-		String optionCode = request.getParameter("optionCode");
 		String clientCode = request.getParameter("clientCode");
-		System.out.println("prod code: " + productCode);
-		System.out.println("opt code: " + optionCode);
-		System.out.println("cli code: " + clientCode);
 
-		if (productCode == null || clientCode==null || optionCode==null) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product or client or option code");
-		}
-
-		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
 		
-		try {
-			cDAO.createQuotation(productCode, clientCode, optionCode);
-		} catch (SQLException e) {
-			throw new ServletException(e);
-			//response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
+		System.out.println("prod : " + productCode);
+		//System.out.println("opt code: " + optionCode);
+		System.out.println("cli : " + clientCode);
+
+		boolean isValid = false;
+		
+		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
+
+		String ctxpath = getServletContext().getContextPath();
+		String path = ctxpath + "/GoToHomeClient";
+		
+		if (productCode != null) {
+			
+			if (clientCode != null) { 
+				int j = 0;
+				while( j<selectedOptions.length ) {
+					if(selectedOptions[j]!=null) {
+						j++;
+					}
+					else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing option code");
+				}
+				
+				isValid = checkInput(selectedOptions, productCode);
+				
+				// nasty client
+				if(!isValid) {
+					response.sendRedirect(path);
+				}
+				// allright
+				else {
+					try {
+						cDAO.createQuotation(productCode, clientCode);
+					} catch (SQLException e) {
+						throw new ServletException(e);
+						//response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
+					}
+					response.sendRedirect(path);			
+				}
+			}
+			else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing client code");
 		}
-			String ctxpath = getServletContext().getContextPath();
-			String path = ctxpath + "/GoToHomeClient";
-			response.sendRedirect(path);
+		else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product code");
+
+		
+			
 	}
 
+
+	// check if the user selected options non belonging to the selected product
+	private boolean checkInput(String[] selectedOptions, String productCode) {
+
+		int j = 0;
+		while( j < selectedOptions.length ) {
+			if(!selectedOptions[j].equals(productCode)) {
+				return false;
+			}
+			j++;
+		}
+		return true;
+	}
 
 	
 	public void destroy() {

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import it.polimi.tiw.projects.beans.Option;
 import it.polimi.tiw.projects.beans.Product;
@@ -52,16 +53,16 @@ public class ClientDAO {
 	
 	
 	//second client functionality
-	public void createQuotation(String productCode, String clientCode, String optionCode) throws SQLException {
+	public void createQuotation(String productCode, String clientCode) throws SQLException {
 		
-		String query = "INSERT into quotation (code, employee_code, client_code, product_code, option_code, price) VALUES(?,?,?,?,?,?)";
+		String query = "INSERT into quotation (code, employee_code, client_code, product_code, price) VALUES(?,?,?,?,?)";
+		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, productCode/*Integer.toString(new Random().nextInt(1000))*/);
+			pstatement.setString(1, Integer.toString(new Random().nextInt(1000)));
 			pstatement.setString(2, "n.a.");
 			pstatement.setString(3, clientCode);
 			pstatement.setString(4, productCode);
-			pstatement.setString(5, "1");
-			pstatement.setFloat(6, 0);
+			pstatement.setFloat(5, 0);
 			pstatement.executeUpdate();
 		}
 	}
