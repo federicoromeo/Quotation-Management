@@ -6,16 +6,16 @@ import it.polimi.tiw.projects.dao.ProductDAO;
 
 public class Product {
 
-	private String code;
+	private int code;
 	private String name;
 	List<Option> optionsList = new ArrayList<>();
 	//private Image image;
 	
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 	
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 

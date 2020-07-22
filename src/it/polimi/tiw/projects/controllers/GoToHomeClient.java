@@ -101,9 +101,9 @@ public class GoToHomeClient extends HttpServlet {
 			System.out.println("for product: "+ p.getCode() +" :");
 			
 			p.setOptionsList(cDAO.selectAvailableOptions(p));
-
+			
+			int i= 1;
 			for(Option o: p.getOptionsList()) {
-				int i= 1;
 				System.out.println("option "+i+"  : "+ o.getName());
 				i++;
 			}

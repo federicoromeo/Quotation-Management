@@ -2,25 +2,25 @@ package it.polimi.tiw.projects.beans;
 
 public class Option {
 
-	private String code;
+	private int code;
 	private String name;
-	private String productCode;
+	private int productCode;
 	private boolean onSale;
 	//private Image image;
 	
 	public Option() {}
 	
-	public Option(String code, String name, String productCode) {
+	public Option(int code, String name, int productCode) {
 		this.code = code;
 		this.name = name;
 		this.productCode = productCode;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 	
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
@@ -32,7 +32,7 @@ public class Option {
 		this.name = name;
 	}
 	
-	public String getProductCode() {
+	public int getProductCode() {
 		return productCode;
 	}
 
