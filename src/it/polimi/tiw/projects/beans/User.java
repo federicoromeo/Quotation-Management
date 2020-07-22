@@ -1,11 +1,11 @@
 package it.polimi.tiw.projects.beans;
 
 public class User {
-	private String code;
+	private int code;
 	private String role;
 	private String name;
 
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
@@ -17,7 +17,7 @@ public class User {
 		return name;
 	}
 	
-	public void setCode(String i) {
+	public void setCode(int i) {
 		code = i;
 	}
 

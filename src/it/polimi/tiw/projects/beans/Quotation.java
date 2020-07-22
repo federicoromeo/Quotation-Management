@@ -2,41 +2,41 @@ package it.polimi.tiw.projects.beans;
 
 public class Quotation {
 	
-	private String code;
-	private String clientCode;
-	private String employeeCode;
-	private String productCode;
+	private int code;
+	private int clientCode;
+	private int employeeCode;
+	private int productCode;
 	private float price;
 	
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 	
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public String getClientCode() {
+	public int getClientCode() {
 		return clientCode;
 	}
 
-	public void setClientCode(String clientCode) {
+	public void setClientCode(int clientCode) {
 		this.clientCode = clientCode;
 	}
 
-	public String getEmployeeCode() {
+	public int getEmployeeCode() {
 		return employeeCode;
 	}
 
-	public void setEmployeeCode(String employeeCode) {
+	public void setEmployeeCode(int employeeCode) {
 		this.employeeCode = employeeCode;
 	}
 
-	public String getProductCode() {
+	public int getProductCode() {
 		return productCode;
 	}
 
-	public void setProductCode(String productCode) {
+	public void setProductCode(int productCode) {
 		this.productCode = productCode;
 	}
 

@@ -10,9 +10,9 @@ import it.polimi.tiw.projects.beans.User;
 
 public class QuotationDAO {
 	private Connection con;
-	private String code;
+	private int code;
 
-	public QuotationDAO(Connection connection, String c) {
+	public QuotationDAO(Connection connection, int c) {
 		this.con = connection;
 		this.code = c;
 	}
@@ -21,11 +21,11 @@ public class QuotationDAO {
 		User owner = null;
 		String query = "SELECT U.code from user U JOIN quotation Q ON Q.employeeCode=U.id where Q.code = ?";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, this.code);
+			pstatement.setInt(1, this.code);
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (result.next()) {
 					owner = new User();
-					owner.setCode(result.getString("code"));
+					owner.setCode(result.getInt("code"));
 				}
 			}
 		}

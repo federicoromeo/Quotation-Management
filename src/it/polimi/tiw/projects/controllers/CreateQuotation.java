@@ -114,15 +114,17 @@ public class CreateQuotation extends HttpServlet {
 					else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing option code");
 				}
 				
-				isValid = checkInput(selectedOptions, productCode);
+				isValid = checkInput(selectedOptions, productCode, cDAO);
 				
 				// nasty client
 				if(!isValid) {
+					System.out.println("\nNON AGGIUNTO\n");
 					response.sendRedirect(path);
 				}
 				// allright
 				else {
 					try {
+						System.out.println("\n AGGIUNGENDO....\n");
 						cDAO.createQuotation(productCode, clientCode);
 					} catch (SQLException e) {
 						throw new ServletException(e);
@@ -134,18 +136,20 @@ public class CreateQuotation extends HttpServlet {
 			else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing client code");
 		}
 		else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product code");
-
-		
 			
 	}
 
 
 	// check if the user selected options non belonging to the selected product
-	private boolean checkInput(String[] selectedOptions, String productCode) {
+	private boolean checkInput(String[] selectedOptions, String rightProductCode, ClientDAO cDAO) {
 
 		int j = 0;
 		while( j < selectedOptions.length ) {
-			if(!selectedOptions[j].equals(productCode)) {
+			
+			//query to get the real code
+			String optionCode = cDAO.checkOptionCode(selectedOptions[j]);
+			
+			if(!rightProductCode.equals(optionCode)) {
 				return false;
 			}
 			j++;

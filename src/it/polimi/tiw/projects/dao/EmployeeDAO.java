@@ -10,9 +10,9 @@ import it.polimi.tiw.projects.beans.Quotation;
 
 public class EmployeeDAO {
 	private Connection con;
-	private String id;
+	private int id;
 
-	public EmployeeDAO(Connection connection, String userid) {
+	public EmployeeDAO(Connection connection, int userid) {
 		this.con = connection;
 		this.id = userid;
 	}
@@ -24,15 +24,15 @@ public class EmployeeDAO {
 		
 		String query = "SELECT code FROM quotation WHERE employeeCode = ? ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, this.id);
+			pstatement.setInt(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Quotation q = new Quotation();
-					q.setCode(result.getString("code"));
+					q.setCode(result.getInt("code"));
 					q.setPrice(Float.parseFloat(result.getString("price")));
-					q.setEmployeeCode(result.getString("employeeCode"));
+					q.setEmployeeCode(result.getInt("employeeCode"));
 					if(!result.getString("clientCode").equals(null))
-						q.setClientCode(result.getString("clientCode"));
+						q.setClientCode(result.getInt("clientCode"));
 					myQuotations.add(q);
 				}
 			}
@@ -48,14 +48,14 @@ public class EmployeeDAO {
 		
 		String query = "SELECT code FROM quotation WHERE employeeCode IS NULL ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, this.id);
+			pstatement.setInt(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Quotation q = new Quotation();
-					q.setCode(result.getString("code"));
+					q.setCode(result.getInt("code"));
 					q.setPrice(Float.parseFloat(result.getString("price")));
 					if(!result.getString("clientCode").equals(null))
-						q.setClientCode(result.getString("clientCode"));
+						q.setClientCode(result.getInt("clientCode"));
 					neverAssignedQuotations.add(q);
 				}
 			}
