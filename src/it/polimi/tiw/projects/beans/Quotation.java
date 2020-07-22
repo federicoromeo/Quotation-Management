@@ -3,8 +3,8 @@ package it.polimi.tiw.projects.beans;
 public class Quotation {
 	
 	private int code;
-	private int clientCode;
-	private int employeeCode;
+	private String clientCode;
+	private String employeeCode;
 	private int productCode;
 	private float price;
 	
@@ -16,19 +16,19 @@ public class Quotation {
 		return code;
 	}
 
-	public int getClientCode() {
+	public String getClientCode() {
 		return clientCode;
 	}
 
-	public void setClientCode(int clientCode) {
+	public void setClientCode(String clientCode) {
 		this.clientCode = clientCode;
 	}
 
-	public int getEmployeeCode() {
+	public String getEmployeeCode() {
 		return employeeCode;
 	}
 
-	public void setEmployeeCode(int employeeCode) {
+	public void setEmployeeCode(String employeeCode) {
 		this.employeeCode = employeeCode;
 	}
 

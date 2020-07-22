@@ -28,7 +28,7 @@ public class UserDAO {
 				else {
 					result.next();
 					User user = new User();
-					user.setCode(result.getInt("username"));
+					user.setCode(result.getString("username"));
 					user.setRole(result.getString("role"));
 					return user;
 				}

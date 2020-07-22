@@ -18,9 +18,9 @@ import it.polimi.tiw.projects.beans.Quotation;
 
 public class ClientDAO {
 	private Connection con;
-	private int id;
+	private String id;
 
-	public ClientDAO(Connection connection, int i) {
+	public ClientDAO(Connection connection, String i) {
 		this.con = connection;
 		this.id = i;
 	}
@@ -34,14 +34,14 @@ public class ClientDAO {
 		String query = "SELECT code FROM quotation WHERE client_code= ?";
 		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setInt(1, this.id);
+			pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				int i = 0;
 				while (result.next()) {
 					Quotation quotation = new Quotation();
 					quotation.setCode(result.getInt("quotation_code"));
 					quotation.setClientCode(this.id);
-					quotation.setEmployeeCode(result.getInt("employee_code"));
+					quotation.setEmployeeCode(result.getString("employee_code"));
 					quotation.setPrice(result.getFloat("price"));
 					myQuotations.add(quotation);
 					i++;

@@ -25,7 +25,7 @@ public class QuotationDAO {
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (result.next()) {
 					owner = new User();
-					owner.setCode(result.getInt("code"));
+					owner.setCode(result.getString("code"));
 				}
 			}
 		}
