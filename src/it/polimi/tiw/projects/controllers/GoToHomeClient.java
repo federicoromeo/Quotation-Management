@@ -50,7 +50,7 @@ public class GoToHomeClient extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = "jdbc:mysql://localhost:3306/project_db";
+			String url = "jdbc:mysql://localhost:3306/mydb";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -63,6 +63,7 @@ public class GoToHomeClient extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		System.out.println("sono in GoToHomeClient");
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
@@ -78,26 +79,35 @@ public class GoToHomeClient extends HttpServlet {
 				return;
 			}
 		}
-		ClientDAO wDao = new ClientDAO(connection, u.getCode());
+		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
 		
 		List<Quotation> myQuotations = new ArrayList<>();
 		List<Product> availableProducts = new ArrayList<>();
-		List<Option> availableOptions = new ArrayList<>();
+		//List<Option> availableOptions = new ArrayList<>();
 		
 		try {
-			myQuotations = wDao.findMyQuotations();
+			myQuotations = cDAO.findMyQuotations();
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
 		}
 		
 		try {
-			availableProducts = wDao.selectAvailableProducts();
+			availableProducts = cDAO.selectAvailableProducts();
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in products database extraction");
 		}
 		
-		for(Product p:availableProducts) {
-			p.setOptionsList(wDao.selectAvailableOptions(p));
+		for(Product p: availableProducts) {
+			
+			System.out.println("for product: "+ p.getCode() +" :");
+			
+			p.setOptionsList(cDAO.selectAvailableOptions(p));
+
+			for(Option o: p.getOptionsList()) {
+				int i= 1;
+				System.out.println("option "+i+"  : "+ o.getName());
+				i++;
+			}
 		}
 		
 		String path = "/WEB-INF/HomeClient.html";
@@ -106,7 +116,7 @@ public class GoToHomeClient extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("myQuotations", myQuotations);
 		ctx.setVariable("products", availableProducts);
-		ctx.setVariable("options", availableOptions);
+		//ctx.setVariable("options", availableOptions);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
