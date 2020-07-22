@@ -24,6 +24,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.User;
+import it.polimi.tiw.projects.beans.Option;
 import it.polimi.tiw.projects.beans.Product;
 import it.polimi.tiw.projects.beans.Quotation;
 import it.polimi.tiw.projects.dao.ClientDAO;
@@ -49,7 +50,7 @@ public class GoToHomeClient extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = "jdbc:mysql://localhost:3306/project_db";
+			String url = "jdbc:mysql://localhost:3306/mydb";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -61,8 +62,8 @@ public class GoToHomeClient extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		System.out.println("sono in GoToHomeClient");
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
@@ -78,34 +79,57 @@ public class GoToHomeClient extends HttpServlet {
 				return;
 			}
 		}
-		ClientDAO wDao = new ClientDAO(connection, u.getCode());
+		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
+		
 		List<Quotation> myQuotations = new ArrayList<>();
 		List<Product> availableProducts = new ArrayList<>();
+		//List<Option> availableOptions = new ArrayList<>();
+		
 		try {
-			myQuotations = wDao.findMyQuotations();
+			myQuotations = cDAO.findMyQuotations();
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
 		}
+		
 		try {
-			availableProducts = wDao.selectAvailableProducts();
+			availableProducts = cDAO.selectAvailableProducts();
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in products database extraction");
 		}
+		
+		for(Product p: availableProducts) {
+			
+			System.out.println("for product: "+ p.getCode() +" :");
+			
+			p.setOptionsList(cDAO.selectAvailableOptions(p));
+
+			for(Option o: p.getOptionsList()) {
+				int i= 1;
+				System.out.println("option "+i+"  : "+ o.getName());
+				i++;
+			}
+		}
+		
 		String path = "/WEB-INF/HomeClient.html";
 		ServletContext servletContext = getServletContext();
+		
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("myQuotations", myQuotations);
-		List<String> productsNames = new ArrayList<>();
-		for(Product p:availableProducts) {
-			productsNames.add(p.getName());
-			System.out.println("name : " + p.getName());
-		}
-		ctx.setVariable("products", productsNames);
+		ctx.setVariable("products", availableProducts);
+		//ctx.setVariable("options", availableOptions);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-		doGet(request, response);
+		try {
+			doGet(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void destroy() {

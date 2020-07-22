@@ -11,7 +11,11 @@
   </context-param>
   <context-param>
     <param-name>dbPassword</param-name>
+<<<<<<< HEAD
     <param-value>Merlino7</param-value>
+=======
+    <param-value>Mmmmmmmmmmeo98</param-value>
+>>>>>>> 7b840219d8edfdc71b8d1dd6ba980f74277cced8
   </context-param>
   <context-param>
     <param-name>dbDriver</param-name>

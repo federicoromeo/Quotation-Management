@@ -59,27 +59,22 @@ public class CreateQuotation extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		doPost(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
-		
-		
+				
 		//verifico che ci sia la sessione e che contenga un bean utente
-		
 		//TOLGO: uso filtri
 		
 		System.out.println("faccio doPost");
 		
 		HttpSession s = request.getSession();
-		System.out.println("isNew() : " + s.isNew());
-		System.out.println("user(createQuot) : " + s.getAttribute("user").toString());
-		System.out.println("user(createQuot) : " + s.getAttribute("user") == null);
+	 
 		if (s.isNew() || s.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
@@ -90,63 +85,33 @@ public class CreateQuotation extends HttpServlet {
 				return;
 			}
 		}
-		
 		////////////////////////////////////////
 		
-		
-		String Q = request.getParameter("quotationCode");
-		System.out.println("Q : " + Q);
-		if (Q == null) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing project code");
+		String productCode = request.getParameter("productCode");
+		String optionCode = request.getParameter("optionCode");
+		String clientCode = request.getParameter("clientCode");
+		System.out.println("prod code: " + productCode);
+		System.out.println("opt code: " + optionCode);
+		System.out.println("cli code: " + clientCode);
+
+		if (productCode == null || clientCode==null || optionCode==null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product or client or option code");
 		}
-		String userid = u.getCode();
-		ClientDAO cDAO = new ClientDAO(connection, userid);
+
+		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
+		
 		try {
-			cDAO.createQuotation(Q);
+			cDAO.createQuotation(productCode, clientCode, optionCode);
 		} catch (SQLException e) {
 			throw new ServletException(e);
 			//response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");
-
 		}
 			String ctxpath = getServletContext().getContextPath();
 			String path = ctxpath + "/GoToHomeClient";
 			response.sendRedirect(path);
 	}
 
-	
-	public List<Option> giveOptions(Product p){
-		
-		List<Option> options = new ArrayList<>();
-		ProductDAO pd = new ProductDAO(p.getName(), connection);
-		try {
-			pd.setCode(pd.findProduct());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-		
-		switch(p.getName()) {
-			case "palla": {
-				Option o1 = new Option("da basket");
-				Option o2 = new Option("da calcio");
-				Option o3 = new Option("da tennis");
-				options.add(o1);
-				options.add(o2);
-				options.add(o3);
-			}
-			case "lampada": {
-				Option o1 = new Option("rossa");
-				Option o2 = new Option("a led");
-				Option o3 = new Option("verde");
-				options.add(o1);
-				options.add(o2);
-				options.add(o3);
-			}
-		}
-		
-		return options;
-	}
-	
+
 	
 	public void destroy() {
 		try {
@@ -156,4 +121,5 @@ public class CreateQuotation extends HttpServlet {
 		} catch (SQLException sqle) {
 		}
 	}
+	
 }
