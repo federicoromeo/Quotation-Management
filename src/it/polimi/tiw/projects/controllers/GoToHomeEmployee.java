@@ -80,9 +80,9 @@ public class GoToHomeEmployee extends HttpServlet {
 		try {
 			myQuotations = eDAO.findMyQuotations();
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in employee's quotations database extraction");
 		}
-
+		
 		String path = "/WEB-INF/HomeEmployee.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

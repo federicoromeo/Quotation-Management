@@ -22,17 +22,20 @@ public class EmployeeDAO {
 		
 		List<Quotation> myQuotations = new ArrayList<Quotation>();
 		
-		String query = "SELECT code FROM quotation WHERE employeeCode = ? ORDER BY price ASC";
+		String query = "SELECT code FROM quotation WHERE employee_code = ? ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					q.setPrice(Integer.parseInt(result.getString("price")));
-					q.setEmployeeCode(result.getString("employeeCode"));
-					if(!result.getString("clientCode").equals(null))
-						q.setClientCode(result.getString("clientCode"));
+					try {
+						q.setPrice(result.getInt("price"));
+					} catch(Exception e) {
+						q.setPrice(0);
+					}
+					q.setEmployeeCode(this.id);
+					q.setClientCode(result.getString("client_code"));
 					myQuotations.add(q);
 				}
 			}
