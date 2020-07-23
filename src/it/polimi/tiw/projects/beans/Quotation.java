@@ -6,7 +6,7 @@ public class Quotation {
 	private String clientCode;
 	private String employeeCode;
 	private int productCode;
-	private float price;
+	private int price;
 	
 	public void setCode(int code) {
 		this.code = code;
@@ -40,11 +40,11 @@ public class Quotation {
 		this.productCode = productCode;
 	}
 
-	public float getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	

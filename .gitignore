@@ -2,3 +2,4 @@
 
 build/**
 images/**
+WebContent\WEB-INF\web.xml

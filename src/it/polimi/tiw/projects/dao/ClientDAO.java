@@ -38,11 +38,20 @@ public class ClientDAO {
 			try (ResultSet result = pstatement.executeQuery();) {
 				int i = 0;
 				while (result.next()) {
+					System.out.println("next");
 					Quotation quotation = new Quotation();
-					quotation.setCode(result.getInt("quotation_code"));
+					quotation.setCode(result.getInt("code"));
 					quotation.setClientCode(this.id);
-					quotation.setEmployeeCode(result.getString("employee_code"));
-					quotation.setPrice(result.getFloat("price"));
+					try {
+						quotation.setEmployeeCode(result.getString("employee_code"));
+					} catch(Exception e) {
+						quotation.setEmployeeCode("0");
+					}
+					try {
+						quotation.setPrice(result.getInt("price"));
+					} catch(Exception e) {
+						quotation.setPrice(0);
+					}
 					myQuotations.add(quotation);
 					i++;
 				}
@@ -54,15 +63,15 @@ public class ClientDAO {
 	
 	
 	//second client functionality
-	public void createQuotation(String productCode, String clientCode) throws SQLException {
+	public void createQuotation(int productCode, String clientCode) throws SQLException {
 		
-		String query = "INSERT into quotation (code, employee_code, client_code, product_code) VALUES(?,?,?,?)";
+		String query = "INSERT into quotation (client_code, product_code) VALUES(?,?)";
 		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, Integer.toString(new Random().nextInt(1000)));
-			pstatement.setString(2, "n.a.");
-			pstatement.setString(3, clientCode);
-			pstatement.setString(4, productCode);
+			//pstatement.setString(1, Integer.toString(new Random().nextInt(1000)));
+			//pstatement.setString(2, "n.a.");
+			pstatement.setString(1, clientCode);
+			pstatement.setInt(2, productCode);
 			//pstatement.setFloat(5, (float) 0.0);
 			pstatement.executeUpdate();
 		}
@@ -118,15 +127,15 @@ public class ClientDAO {
 
 	
 	// check for nasty client
-	public String checkOptionCode(String optionCode) {
+	public int checkOptionCode(int optionCode) {
 		
 		String query = "SELECT product_code FROM opzione WHERE code =?";
-		String rightCode = null;
+		int rightCode = 0;
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, optionCode);
+			pstatement.setInt(1, optionCode);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
-					rightCode = result.getString("product_code");
+					rightCode = result.getInt("product_code");
 				}
 			}
 		} catch (SQLException e) {

@@ -4,7 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Employee's home</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" media="all" href="../CSS/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" type="text/css" media="all" href="Quotation-Management\WebContent\CSS\style.css" th:href="@{/css/style.css}" />
 <style>
 	table, th, td {
 	  border: 1px solid black;
@@ -26,18 +26,24 @@
 	<span th:text="${session.user.name}"></span>
 	
 	
-	<p>My Quotations:</p>
-	<table style="width:100%">
-		<tr>
-		    <th>Code</th>
-		    <th>ClientCode</th>
-	    </tr>
-	    <tr th:each="q: ${myQuotations}">
-		    <td th:text="${q.code}">aa</td>
-		    <td th:text="${q.clientCode}">bb</td>
-	    </tr>
-  
-	</table>
+		<h3>My Quotations:</h3>
+	
+			<table style="width:100%">
+				<tr>
+				    <th>Code</th>
+				    <th>EmployeeCode</th>
+				    <th>ClientCode</th>
+				    <th>price</th>
+				    <th>productCode</th>
+			    </tr>
+			    <tr th:each="q: ${myQuotations}">
+				    <td th:text="${q.code}">aa</td>
+				    <td th:text="${q.employeeCode}">bb</td>
+				    <td th:text="${q.clientCode}">cc</td>
+				    <td th:text="${q.price}">dd</td>
+				    <td th:text="${q.productCode}">ee</td>
+			    </tr>
+			</table>
 	
 	
 	<p>Never Assigned Quotations:</p>
