@@ -4,6 +4,19 @@
 <meta charset="ISO-8859-1">
 <title>Client's home</title>
 <!--link rel="stylesheet" type="text/css" media="all" href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" /-->
+
+<style>
+	table, th, td {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	}
+	th, td {
+	  padding: 5px;
+	  text-align: left;
+	}
+</style>
+
+
 </head>
 <body>
 	<div align="right">
@@ -16,7 +29,7 @@
 	<form th:action="@{/CreateQuotation}" th:object="${form}" method="POST">
 	
 		<fieldset>
-			<legend>Choose a Product and select at least one Option:</legend>
+			<h3>Choose a Product and select at least one Option:</h3>
 			
  			   	<div th:each="p: ${products}">
  			   	
@@ -36,12 +49,26 @@
 		
 		<fieldset>
 			
-			<h2>My Quotations:</h2>
+			<h3>My Quotations:</h3>
 		
-			<ul>
-				<li th:each="q: ${myQuotations}"  th:text="${q.code}"  th:value="${q.code}"> </li>
-			</ul>
-			
+				<table style="width:100%">
+					<tr>
+					    <th>Code</th>
+					    <th>EmployeeCode</th>
+					    <th>ClientCode</th>
+					    <th>price</th>
+					    <th>productCode</th>
+				    </tr>
+				    <tr th:each="q: ${myQuotations}">
+					    <td th:text="${q.code}">aa</td>
+					    <td th:text="${q.employeeCode}">bb</td>
+					    <td th:text="${q.clientCode}">bb</td>
+					    <td th:text="${q.price}">bb</td>
+					    <td th:text="${q.productCode}">bb</td>
+				    </tr>
+			  
+				</table>
+	
 		</fieldset>	
 		
 
