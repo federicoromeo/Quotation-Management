@@ -21,9 +21,8 @@
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
 	
-	<h1>Welcome to the Employee Home page</h1>
+	<h1>Welcome to the Employee Home page, <span th:text="${session.user.code}"></span></h1>
 	
-	<span th:text="${session.user.name}"></span>
 	
 	
 		<h3>My Quotations:</h3>
@@ -59,7 +58,7 @@
 			    </tr>
 			    <tr th:each="q: ${neverAssignedQuotations}">
 			    	<td><input type="radio" name="select" th:name="selectedQuotation" th:value="${q.code}"></td>
-				    <td th:text="${q.code}"></td>
+				    <td th:text="${q.code}">aa</td>
 				    <td th:text="${q.employeeCode}">bb</td>
 				    <td th:text="${q.clientCode}">cc</td>
 				    <td th:text="${q.price}">dd</td>

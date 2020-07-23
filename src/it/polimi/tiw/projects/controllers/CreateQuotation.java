@@ -126,7 +126,7 @@ public class CreateQuotation extends HttpServlet {
 				else {
 					try {
 						System.out.println("\n AGGIUNGENDO....\n");
-						cDAO.createQuotation(productCode, clientCode);
+						cDAO.createQuotation(productCode, clientCode, selectedOptionsInt);
 					} catch (SQLException e) {
 						throw new ServletException(e);
 						//response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure of project creation in database");

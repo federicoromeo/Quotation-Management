@@ -60,6 +60,7 @@ public class GoToPriceQuotation extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
 		

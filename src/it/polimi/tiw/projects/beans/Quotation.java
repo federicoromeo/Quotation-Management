@@ -5,6 +5,7 @@ public class Quotation {
 	private int code;
 	private String clientCode;
 	private String employeeCode;
+	//private Product myProduct;
 	private int productCode;
 	private int price;
 	
