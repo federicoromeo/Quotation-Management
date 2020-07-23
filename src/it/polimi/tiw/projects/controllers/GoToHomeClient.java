@@ -83,7 +83,6 @@ public class GoToHomeClient extends HttpServlet {
 		
 		List<Quotation> myQuotations = new ArrayList<>();
 		List<Product> availableProducts = new ArrayList<>();
-		//List<Option> availableOptions = new ArrayList<>();
 		
 		try {
 			myQuotations = cDAO.findMyQuotations();
