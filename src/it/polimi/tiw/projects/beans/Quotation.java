@@ -2,17 +2,17 @@ package it.polimi.tiw.projects.beans;
 
 public class Quotation {
 	
-	private String code;
+	private int code;
 	private String clientCode;
 	private String employeeCode;
-	private String productCode;
+	private int productCode;
 	private float price;
 	
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 	
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
@@ -32,11 +32,11 @@ public class Quotation {
 		this.employeeCode = employeeCode;
 	}
 
-	public String getProductCode() {
+	public int getProductCode() {
 		return productCode;
 	}
 
-	public void setProductCode(String productCode) {
+	public void setProductCode(int productCode) {
 		this.productCode = productCode;
 	}
 

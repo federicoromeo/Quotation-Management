@@ -75,14 +75,14 @@ public class GoToPriceQuotation extends HttpServlet {
 				return;
 			}
 		}
-		String chosenQuotation = request.getParameter("quotationCode");
+		int chosenQuotation = Integer.parseInt(request.getParameter("quotationCode"));
 		EmployeeDAO eDao = new EmployeeDAO(connection, u.getCode());
 		List<Quotation> quotations = null;
 		//List<User> users = null;
-		String chosenQuotationCOde = null;
+		int chosenQuotationCOde = 0;
 		try {
 			quotations = eDao.findMyQuotations();
-			if (chosenQuotation == null) {
+			if (chosenQuotation == 0) {
 				//chosenQuotationCOde = eDao.findDefaultProject();
 			} else {
 				chosenQuotationCOde = chosenQuotation;

@@ -16,17 +16,15 @@
 	<form th:action="@{/CreateQuotation}" th:object="${form}" method="POST">
 	
 		<fieldset>
-			<legend>Choose a Product:</legend>
+			<legend>Choose a Product and select al least one Option:</legend>
 			
  			   	<div th:each="p: ${products}">
  			   	
- 			   		<input type="radio" name="selection" th:text="${p.name}">
- 			   	 			   	
- 			 	  	<input  type="checkbox" th:name="${o.name}" th:each="o: ${p.optionsList}" th:text="${o.name}">  >
+ 			   		<input type="radio"    th:name="productCode" th:value="${p.code}" th:text="${p.name}">
+ 			 	  	<input type="checkbox" th:name="optionsList" th:value="${o.code}" th:each="o: ${p.optionsList}" th:text="${o.name}"> 
  			   
  			   	</div>	
  			   		   			
-				
     	</fieldset>
 		
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">

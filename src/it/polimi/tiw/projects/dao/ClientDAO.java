@@ -1,6 +1,7 @@
 package it.polimi.tiw.projects.dao;
 
 import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import it.polimi.tiw.projects.beans.Option;
 import it.polimi.tiw.projects.beans.Product;
@@ -37,7 +39,7 @@ public class ClientDAO {
 				int i = 0;
 				while (result.next()) {
 					Quotation quotation = new Quotation();
-					quotation.setCode(result.getString("quotation_code"));
+					quotation.setCode(result.getInt("quotation_code"));
 					quotation.setClientCode(this.id);
 					quotation.setEmployeeCode(result.getString("employee_code"));
 					quotation.setPrice(result.getFloat("price"));
@@ -52,16 +54,16 @@ public class ClientDAO {
 	
 	
 	//second client functionality
-	public void createQuotation(String productCode, String clientCode, String optionCode) throws SQLException {
+	public void createQuotation(String productCode, String clientCode) throws SQLException {
 		
-		String query = "INSERT into quotation (code, employee_code, client_code, product_code, option_code, price) VALUES(?,?,?,?,?,?)";
+		String query = "INSERT into quotation (code, employee_code, client_code, product_code) VALUES(?,?,?,?)";
+		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			pstatement.setString(1, productCode/*Integer.toString(new Random().nextInt(1000))*/);
+			pstatement.setString(1, Integer.toString(new Random().nextInt(1000)));
 			pstatement.setString(2, "n.a.");
 			pstatement.setString(3, clientCode);
 			pstatement.setString(4, productCode);
-			pstatement.setString(5, "1");
-			pstatement.setFloat(6, 0);
+			//pstatement.setFloat(5, (float) 0.0);
 			pstatement.executeUpdate();
 		}
 	}
@@ -75,7 +77,7 @@ public class ClientDAO {
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Product product = new Product();
-					product.setCode(result.getString("code"));
+					product.setCode(result.getInt("code"));
 					product.setName(result.getString("name"));
 					productsList.add(product);
 				}
@@ -92,12 +94,11 @@ public class ClientDAO {
 		List<Option> optionsList = new ArrayList<>();
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 					
-			pstatement.setString(1, p.getCode());
+			pstatement.setInt(1, p.getCode());
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 
-					
-					String code = result.getString("code");
+					int code = result.getInt("code");
 					String name = result.getString("name");
 					
 					Option option = new Option(code,name,p.getCode());
@@ -114,4 +115,30 @@ public class ClientDAO {
 		return optionsList;
 	}
 	
+
+	
+	// check for nasty client
+	public String checkOptionCode(String optionCode) {
+		
+		String query = "SELECT product_code FROM opzione WHERE code =?";
+		String rightCode = null;
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setString(1, optionCode);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					rightCode = result.getString("product_code");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rightCode;
+	}
+	
+				
+				
+				
+				
+				
 }
