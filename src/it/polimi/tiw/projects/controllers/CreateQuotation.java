@@ -65,27 +65,9 @@ public class CreateQuotation extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		
-		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
 				
-		//verifico che ci sia la sessione e che contenga un bean utente
-		//TOLGO: uso filtri
-		
-		System.out.println("faccio doPost");
-		
-		HttpSession s = request.getSession();
-	 
-		if (s.isNew() || s.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		} else {
-			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("client")) {
-				response.sendRedirect(loginpath);
-				return;
-			}
-		}
-		////////////////////////////////////////
+		// FILTER	
 		
 		String[] selectedOptions = request.getParameterValues("optionsList");
 		Integer productCode = Integer.parseInt(request.getParameter("productCode"));
@@ -137,7 +119,6 @@ public class CreateQuotation extends HttpServlet {
 			else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing client code");
 		}
 		else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product code");
-		System.out.println("test");
 	}
 
 

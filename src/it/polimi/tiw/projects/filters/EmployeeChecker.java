@@ -30,6 +30,7 @@ public class EmployeeChecker implements Filter {
         User user;
         user = (User) session.getAttribute("user");
 
+        //role
         if (!user.getRole().equals("employee")){
         	servletResponse.sendRedirect(loginPath);
             return;

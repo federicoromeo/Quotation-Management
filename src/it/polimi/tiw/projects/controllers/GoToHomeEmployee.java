@@ -61,19 +61,9 @@ public class GoToHomeEmployee extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
-		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
-		HttpSession s = request.getSession();
-		if (s.isNew() || s.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		} else {
-			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("employee")) {
-				response.sendRedirect(loginpath);
-				return;
-			}
-		}
+		
+		// FILTER	
 		
 		EmployeeDAO eDAO = new EmployeeDAO(connection, u.getCode());
 		List<Quotation> myQuotations = new ArrayList<>();

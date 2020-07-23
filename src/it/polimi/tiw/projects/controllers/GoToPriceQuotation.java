@@ -61,21 +61,10 @@ public class GoToPriceQuotation extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		
-		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
 		
-		//filter
-		HttpSession s = request.getSession();
-		if (s.isNew() || s.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		} else {
-			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("employee")) {
-				response.sendRedirect(loginpath);
-				return;
-			}
-		}
+		// FILTER	
+
 		int chosenQuotation = 0;
 		try {
 			chosenQuotation = Integer.parseInt(request.getParameter("selectedQuotation"));	

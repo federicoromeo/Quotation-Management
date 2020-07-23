@@ -31,6 +31,7 @@ public class ClientChecker implements Filter {
         User user;
         user = (User) session.getAttribute("user");
 
+        //role
         if (!user.getRole().equals("client")){
         	servletResponse.sendRedirect(loginPath);
             return;
