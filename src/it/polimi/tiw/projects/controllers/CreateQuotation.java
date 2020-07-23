@@ -88,9 +88,9 @@ public class CreateQuotation extends HttpServlet {
 		////////////////////////////////////////
 		
 		String[] selectedOptions = request.getParameterValues("optionsList");
-		String productCode = request.getParameter("productCode");
+		Integer productCode = Integer.parseInt(request.getParameter("productCode"));
 		String clientCode = request.getParameter("clientCode");
-
+		int[] selectedOptionsInt = new int[selectedOptions.length];
 		
 		System.out.println("prod : " + productCode);
 		//System.out.println("opt code: " + optionCode);
@@ -109,12 +109,13 @@ public class CreateQuotation extends HttpServlet {
 				int j = 0;
 				while( j<selectedOptions.length ) {
 					if(selectedOptions[j]!=null) {
+						selectedOptionsInt[j] = Integer.parseInt(selectedOptions[j]);
 						j++;
 					}
 					else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing option code");
 				}
 				
-				isValid = checkInput(selectedOptions, productCode, cDAO);
+				isValid = checkInput(selectedOptionsInt, productCode, cDAO);
 				
 				// nasty client
 				if(!isValid) {
@@ -141,15 +142,15 @@ public class CreateQuotation extends HttpServlet {
 
 
 	// check if the user selected options non belonging to the selected product
-	private boolean checkInput(String[] selectedOptions, String rightProductCode, ClientDAO cDAO) {
+	private boolean checkInput(int[] selectedOptionsInt, int rightProductCode, ClientDAO cDAO) {
 
 		int j = 0;
-		while( j < selectedOptions.length ) {
+		while( j < selectedOptionsInt.length ) {
 			
 			//query to get the real code
-			String optionCode = cDAO.checkOptionCode(selectedOptions[j]);
+			int product_code = cDAO.checkOptionCode(selectedOptionsInt[j]);
 			
-			if(!rightProductCode.equals(optionCode)) {
+			if(!(rightProductCode == product_code)) {
 				return false;
 			}
 			j++;
