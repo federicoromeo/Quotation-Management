@@ -22,7 +22,7 @@ public class EmployeeDAO {
 		
 		List<Quotation> myQuotations = new ArrayList<Quotation>();
 		
-		String query = "SELECT code FROM quotation WHERE employeeCode = ? ORDER BY price ASC";
+		String query = "SELECT code FROM quotation WHERE employee_code = ? ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
