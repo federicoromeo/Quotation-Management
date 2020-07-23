@@ -86,6 +86,7 @@ public class GoToHomeEmployee extends HttpServlet {
 		String path = "/WEB-INF/HomeEmployee.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("myQuotations", myQuotations);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
