@@ -47,7 +47,7 @@ public class GoToPriceQuotation extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = context.getInitParameter("dbUrl");
+			String url = "jdbc:mysql://localhost:3306/mydb";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -76,30 +76,23 @@ public class GoToPriceQuotation extends HttpServlet {
 				return;
 			}
 		}
-		int chosenQuotation = Integer.parseInt(request.getParameter("quotationCode"));
+		
+		int chosenQuotation = Integer.parseInt(request.getParameter("selectedQuotation"));
+		
 		EmployeeDAO eDao = new EmployeeDAO(connection, u.getCode());
-		List<Quotation> quotations = null;
-		//List<User> users = null;
-		int chosenQuotationCOde = 0;
+			
+		Quotation selectedQuotation = null;
 		try {
-			quotations = eDao.findMyQuotations();
-			if (chosenQuotation == 0) {
-				//chosenQuotationCOde = eDao.findDefaultProject();
-			} else {
-				chosenQuotationCOde = chosenQuotation;
-			}
-			QuotationDAO qDao = new QuotationDAO(connection, chosenQuotationCOde);
-			//users = qDao.findWorkers();
+			selectedQuotation = eDao.returnSelectedQuotation(chosenQuotation);
 		} catch (SQLException e) {
-			// throw new ServletException(e);
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in admin's project database extraction");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		String path = "/WEB-INF/PriceQuotation.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("myQuotations", quotations);
-		ctx.setVariable("quotationCode", chosenQuotationCOde);
-		//ctx.setVariable("workers", users);
+		ctx.setVariable("selectedQuotation", selectedQuotation);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

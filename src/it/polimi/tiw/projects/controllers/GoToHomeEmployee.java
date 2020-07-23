@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -98,9 +99,55 @@ public class GoToHomeEmployee extends HttpServlet {
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+
+		System.out.println("ci sono         oooo");
+		
+		int selectedPrice = 0;
+		try {
+			selectedPrice = Integer.parseInt(request.getParameter("price"));
+		}
+		catch(Exception ex) {
+			response.sendRedirect(getServletContext().getContextPath() +"/WEB-INF/PriceQuotation.html");
+		}
+		
+		User u = null;
+		HttpSession s = request.getSession();
+		if (s.isNew() || s.getAttribute("user") == null) {
+			response.sendRedirect(getServletContext().getContextPath() +"index.html");
+			return;
+		} else {
+			u = (User) s.getAttribute("user");
+			if (!u.getRole().equals("employee")) {
+				response.sendRedirect(getServletContext().getContextPath() +"index.html");
+				return;
+			}
+		}
+		
+		System.out.println("ci sono         oooo");
+
+		
+		EmployeeDAO eDAO = new EmployeeDAO(connection, u.getCode());
+		int quotationCode = Integer.parseInt(request.getParameter("selectedQuotationCode"));
+		
+		try {
+			eDAO.priceQuotation(quotationCode, selectedPrice);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("ci sono         oooo");
+
+		
+		System.out.println("ci sono         oooo");
+
+		
 		doGet(request, response);
+	
 	}
+	
+	
+	
 
 }
