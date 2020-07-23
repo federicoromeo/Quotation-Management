@@ -76,6 +76,7 @@ public class GoToHomeEmployee extends HttpServlet {
 		
 		EmployeeDAO eDAO = new EmployeeDAO(connection, u.getCode());
 		List<Quotation> myQuotations = new ArrayList<>();
+		List<Quotation> neverAssignedQuotations = new ArrayList<>();
 		
 		try {
 			myQuotations = eDAO.findMyQuotations();
@@ -83,10 +84,17 @@ public class GoToHomeEmployee extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in employee's quotations database extraction");
 		}
 		
+		try {
+			neverAssignedQuotations = eDAO.findNeverAssignedQuotation();
+		} catch (SQLException e) {
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in never assigned quotations database extraction");
+		}
+		
 		String path = "/WEB-INF/HomeEmployee.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("myQuotations", myQuotations);
+		ctx.setVariable("neverAssignedQuotations", neverAssignedQuotations);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

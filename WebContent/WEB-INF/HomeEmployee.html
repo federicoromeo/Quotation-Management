@@ -46,13 +46,28 @@
 			</table>
 	
 	
-	<p>Never Assigned Quotations:</p>
+	<h3>Never Assigned Quotations:</h3>
 	<form th:action="@{/PriceQuotation}" method="POST">
-		<select th:each="q: ${neverAssignedQuotations}">
-			<option th:text="${q.code} + ${q.clientCode}">o1</option>
-		</select>
+	<table style="width:100%">
+				<tr>
+					<th></th>
+				    <th>Code</th>
+				    <th>EmployeeCode</th>
+				    <th>ClientCode</th>
+				    <th>price</th>
+				    <th>productCode</th>
+			    </tr>
+			    <tr th:each="q: ${neverAssignedQuotations}">
+			    	<td><input type="radio" name="select" th:name="selectedQuotation" th:value="${q.code}"></td>
+				    <td th:text="${q.code}"></td>
+				    <td th:text="${q.employeeCode}">bb</td>
+				    <td th:text="${q.clientCode}">cc</td>
+				    <td th:text="${q.price}">dd</td>
+				    <td th:text="${q.productCode}">ee</td>
+			    </tr>
+	</table>
+	<input type="submit" value="price quotation">
 	</form>
-	<a href="PriceQuotation.html" th:href="@{/GoToPriceQuotation}">Price the selected quotation!</a>
 	
 	
 </body>

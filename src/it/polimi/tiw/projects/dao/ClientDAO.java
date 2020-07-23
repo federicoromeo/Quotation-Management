@@ -31,7 +31,7 @@ public class ClientDAO {
 		List<Quotation> myQuotations = new ArrayList<>();
 		
 		//query to extract my quotations
-		String query = "SELECT code FROM quotation WHERE client_code= ?";
+		String query = "SELECT * FROM quotation WHERE client_code= ?";
 		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, this.id);
@@ -42,16 +42,8 @@ public class ClientDAO {
 					Quotation quotation = new Quotation();
 					quotation.setCode(result.getInt("code"));
 					quotation.setClientCode(this.id);
-					try {
-						quotation.setEmployeeCode(result.getString("employee_code"));
-					} catch(Exception e) {
-						quotation.setEmployeeCode("0");
-					}
-					try {
-						quotation.setPrice(result.getInt("price"));
-					} catch(Exception e) {
-						quotation.setPrice(0);
-					}
+					quotation.setEmployeeCode(result.getString("employee_code"));
+					quotation.setPrice(result.getInt("price"));
 					myQuotations.add(quotation);
 					i++;
 				}

@@ -49,16 +49,15 @@ public class EmployeeDAO {
 		
 		List<Quotation> neverAssignedQuotations = new ArrayList<Quotation>();
 		
-		String query = "SELECT code FROM quotation WHERE employeeCode IS NULL ORDER BY price ASC";
+		String query = "SELECT * FROM quotation WHERE employee_code IS NULL ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			//pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					q.setPrice(Integer.parseInt(result.getString("price")));
-					if(!result.getString("clientCode").equals(null))
-						q.setClientCode(result.getString("clientCode"));
+					q.setPrice(result.getInt("price"));
+					q.setClientCode(result.getString("client_code"));
+					q.setProductCode(result.getInt("product_code"));
 					neverAssignedQuotations.add(q);
 				}
 			}
