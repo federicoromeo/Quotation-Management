@@ -22,20 +22,17 @@ public class EmployeeDAO {
 		
 		List<Quotation> myQuotations = new ArrayList<Quotation>();
 		
-		String query = "SELECT code FROM quotation WHERE employee_code = ? ORDER BY price ASC";
+		String query = "SELECT * FROM quotation WHERE employee_code = ? ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					try {
-						q.setPrice(result.getInt("price"));
-					} catch(Exception e) {
-						q.setPrice(0);
-					}
+					q.setPrice(result.getInt("price"));
 					q.setEmployeeCode(this.id);
 					q.setClientCode(result.getString("client_code"));
+					q.setProductCode(result.getInt("product_code"));
 					myQuotations.add(q);
 				}
 			}
@@ -49,21 +46,59 @@ public class EmployeeDAO {
 		
 		List<Quotation> neverAssignedQuotations = new ArrayList<Quotation>();
 		
-		String query = "SELECT code FROM quotation WHERE employeeCode IS NULL ORDER BY price ASC";
+		String query = "SELECT * FROM quotation WHERE employee_code IS NULL ORDER BY price ASC";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			//pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					q.setPrice(Integer.parseInt(result.getString("price")));
-					if(!result.getString("clientCode").equals(null))
-						q.setClientCode(result.getString("clientCode"));
+					q.setPrice(result.getInt("price"));
+					q.setClientCode(result.getString("client_code"));
+					q.setProductCode(result.getInt("product_code"));
 					neverAssignedQuotations.add(q);
 				}
 			}
 		}
 		return neverAssignedQuotations;
+	}
+
+	
+	//give the datas of the quotation to price it
+	public Quotation returnSelectedQuotation(int chosenQuotation) throws SQLException {
+
+		String query = "SELECT * FROM quotation WHERE code= ?";
+		Quotation q = null;
+		
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setInt(1, chosenQuotation);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					q = new Quotation();
+					q.setCode(result.getInt("code"));
+					q.setPrice(result.getInt("price"));
+					q.setClientCode(result.getString("client_code"));
+					q.setEmployeeCode(result.getString("employee_code"));
+					q.setProductCode(result.getInt("product_code"));
+				}
+			}
+		}
+		return q;
+	}
+
+	
+	//update table price column as selected from user
+	public void priceQuotation(int quotationCode, int selectedPrice) throws SQLException {
+
+		String query = "UPDATE quotation SET price =?, employee_code= ? WHERE code =?";
+		
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setInt(1, selectedPrice);
+			pstatement.setString(2, this.id);
+			pstatement.setInt(3, quotationCode);
+			
+			pstatement.executeUpdate();	
+			
+		}
 	}
 
 

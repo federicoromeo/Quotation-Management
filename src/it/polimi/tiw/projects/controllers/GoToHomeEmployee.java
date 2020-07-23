@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -76,6 +77,7 @@ public class GoToHomeEmployee extends HttpServlet {
 		
 		EmployeeDAO eDAO = new EmployeeDAO(connection, u.getCode());
 		List<Quotation> myQuotations = new ArrayList<>();
+		List<Quotation> neverAssignedQuotations = new ArrayList<>();
 		
 		try {
 			myQuotations = eDAO.findMyQuotations();
@@ -83,15 +85,59 @@ public class GoToHomeEmployee extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in employee's quotations database extraction");
 		}
 		
+		try {
+			neverAssignedQuotations = eDAO.findNeverAssignedQuotation();
+		} catch (SQLException e) {
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in never assigned quotations database extraction");
+		}
+		
 		String path = "/WEB-INF/HomeEmployee.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("myQuotations", myQuotations);
+		ctx.setVariable("neverAssignedQuotations", neverAssignedQuotations);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		int selectedPrice = 0;
+		try {
+			selectedPrice = Integer.parseInt(request.getParameter("price"));
+		}
+		catch(Exception ex) {
+			response.sendRedirect(getServletContext().getContextPath() +"/WEB-INF/PriceQuotation.html");
+		}
+		
+		User u = null;
+		HttpSession s = request.getSession();
+		if (s.isNew() || s.getAttribute("user") == null) {
+			response.sendRedirect(getServletContext().getContextPath() +"index.html");
+			return;
+		} else {
+			u = (User) s.getAttribute("user");
+			if (!u.getRole().equals("employee")) {
+				response.sendRedirect(getServletContext().getContextPath() +"index.html");
+				return;
+			}
+		}
+		
+		System.out.println("ci sono         oooo");
+
+		
+		EmployeeDAO eDAO = new EmployeeDAO(connection, u.getCode());
+		int quotationCode = Integer.parseInt(request.getParameter("selectedQuotationCode"));
+		
+		try {
+			eDAO.priceQuotation(quotationCode, selectedPrice);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		doGet(request, response);
+	
 	}
+	
+	
+	
 
 }

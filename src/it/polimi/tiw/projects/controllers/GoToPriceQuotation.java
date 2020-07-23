@@ -47,7 +47,7 @@ public class GoToPriceQuotation extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-			String url = context.getInitParameter("dbUrl");
+			String url = "jdbc:mysql://localhost:3306/mydb";
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
@@ -60,6 +60,7 @@ public class GoToPriceQuotation extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		User u = null;
 		
@@ -75,31 +76,31 @@ public class GoToPriceQuotation extends HttpServlet {
 				return;
 			}
 		}
-		int chosenQuotation = Integer.parseInt(request.getParameter("quotationCode"));
-		EmployeeDAO eDao = new EmployeeDAO(connection, u.getCode());
-		List<Quotation> quotations = null;
-		//List<User> users = null;
-		int chosenQuotationCOde = 0;
+		int chosenQuotation = 0;
 		try {
-			quotations = eDao.findMyQuotations();
-			if (chosenQuotation == 0) {
-				//chosenQuotationCOde = eDao.findDefaultProject();
-			} else {
-				chosenQuotationCOde = chosenQuotation;
+			chosenQuotation = Integer.parseInt(request.getParameter("selectedQuotation"));	
+			
+			EmployeeDAO eDao = new EmployeeDAO(connection, u.getCode());
+				
+			Quotation selectedQuotation = null;
+			try {
+				selectedQuotation = eDao.returnSelectedQuotation(chosenQuotation);
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			QuotationDAO qDao = new QuotationDAO(connection, chosenQuotationCOde);
-			//users = qDao.findWorkers();
-		} catch (SQLException e) {
-			// throw new ServletException(e);
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in admin's project database extraction");
+			
+			String path = "/WEB-INF/PriceQuotation.html";
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("selectedQuotation", selectedQuotation);
+			templateEngine.process(path, ctx, response.getWriter());
+		} catch(Exception e) {
+			System.out.println("nasty client, no quotations available");
+			String ctxpath = getServletContext().getContextPath();
+			String path = ctxpath + "/GoToHomeEmployee";
+			System.out.println("path : " + path);
+			response.sendRedirect(path);
 		}
-		String path = "/WEB-INF/PriceQuotation.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("myQuotations", quotations);
-		ctx.setVariable("quotationCode", chosenQuotationCOde);
-		//ctx.setVariable("workers", users);
-		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {

@@ -22,8 +22,8 @@
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-	<h1>Welcome to the Client's Home Page</h1>
-	<span th:text="${session.user.name}"></span>
+	<h1>Welcome to the Client's Home Page, <span th:text="${session.user.code}" ></span>  </h1>
+	
 	
 	<p>Please use the form below to enter a new Quotation</p>
 	<form th:action="@{/CreateQuotation}" th:object="${form}" method="POST">

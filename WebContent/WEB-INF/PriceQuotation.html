@@ -12,17 +12,27 @@
 	<h1>Welcome to the Price Quotation Page</h1>
 
 	<span>User: </span>
-	<span th:text="${session.user.username}"></span><br>
+	<span th:text="${session.user.code}"></span><br><br>
 	
 	<span>Quotation Code: </span>
-	<span th:text="${session.user.username}"></span>
+	<span th:text="${selectedQuotation.code}"></span><br><br>
+	
+	<span>Client Code: </span>
+	<span th:text="${selectedQuotation.clientCode}"></span><br><br>
+	
+	<span>Employee Code: </span>
+	<span th:text="${selectedQuotation.employeeCode}"></span><br><br>
+	
+	<span>Product Code: </span>
+	<span th:text="${selectedQuotation.productCode}"></span><br><br>
+	
 	
 	<p>	Please use the form below to assign price </p>
-	
 
-	<form action="PriceQuotation" method="POST">
+	<form th:action="@{/GoToHomeEmployee}" method="POST">
 		PRICE: <input type="text" name="price"><br> 
 			   <input type="submit" value="priceQuotation">
+     	   	   <input type="hidden" name="selectedQuotationCode" th:value="${selectedQuotation.code}">
 	</form>	
 
 </body>

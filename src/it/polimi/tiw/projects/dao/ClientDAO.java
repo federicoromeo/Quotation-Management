@@ -31,31 +31,20 @@ public class ClientDAO {
 		List<Quotation> myQuotations = new ArrayList<>();
 		
 		//query to extract my quotations
-		String query = "SELECT code FROM quotation WHERE client_code= ?";
+		String query = "SELECT * FROM quotation WHERE client_code= ?";
 		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
 			pstatement.setString(1, this.id);
 			try (ResultSet result = pstatement.executeQuery();) {
-				int i = 0;
 				while (result.next()) {
-					System.out.println("next");
 					Quotation quotation = new Quotation();
 					quotation.setCode(result.getInt("code"));
+					quotation.setProductCode(result.getInt("product_code"));
 					quotation.setClientCode(this.id);
-					try {
-						quotation.setEmployeeCode(result.getString("employee_code"));
-					} catch(Exception e) {
-						quotation.setEmployeeCode("0");
-					}
-					try {
-						quotation.setPrice(result.getInt("price"));
-					} catch(Exception e) {
-						quotation.setPrice(0);
-					}
+					quotation.setEmployeeCode(result.getString("employee_code"));
+					quotation.setPrice(result.getInt("price"));
 					myQuotations.add(quotation);
-					i++;
 				}
-				System.out.println("numero quot: " +i);
 			}
 		}
 		return myQuotations;
@@ -63,16 +52,13 @@ public class ClientDAO {
 	
 	
 	//second client functionality
-	public void createQuotation(int productCode, String clientCode) throws SQLException {
+	public void createQuotation(int productCode, String clientCode, int[] selectedOptionsInt) throws SQLException {
 		
 		String query = "INSERT into quotation (client_code, product_code) VALUES(?,?)";
 		
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
-			//pstatement.setString(1, Integer.toString(new Random().nextInt(1000)));
-			//pstatement.setString(2, "n.a.");
 			pstatement.setString(1, clientCode);
 			pstatement.setInt(2, productCode);
-			//pstatement.setFloat(5, (float) 0.0);
 			pstatement.executeUpdate();
 		}
 	}
