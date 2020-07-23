@@ -28,11 +28,7 @@ public class CheckLogin extends HttpServlet {
 		try {
 			ServletContext context = getServletContext();
 			String driver = context.getInitParameter("dbDriver");
-<<<<<<< HEAD
 			String url = context.getInitParameter("dbURL");
-=======
-			String url = context.getInitParameter("dbUrl");
->>>>>>> 7b840219d8edfdc71b8d1dd6ba980f74277cced8
 			String user = context.getInitParameter("dbUser");
 			String password = context.getInitParameter("dbPassword");
 			Class.forName(driver);
