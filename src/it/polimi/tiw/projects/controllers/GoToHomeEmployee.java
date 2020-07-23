@@ -101,9 +101,6 @@ public class GoToHomeEmployee extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-
-		System.out.println("ci sono         oooo");
-		
 		int selectedPrice = 0;
 		try {
 			selectedPrice = Integer.parseInt(request.getParameter("price"));
@@ -136,13 +133,6 @@ public class GoToHomeEmployee extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println("ci sono         oooo");
-
-		
-		System.out.println("ci sono         oooo");
-
-		
 		doGet(request, response);
 	
 	}

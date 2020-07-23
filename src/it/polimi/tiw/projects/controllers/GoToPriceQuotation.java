@@ -76,24 +76,31 @@ public class GoToPriceQuotation extends HttpServlet {
 				return;
 			}
 		}
-		
-		int chosenQuotation = Integer.parseInt(request.getParameter("selectedQuotation"));
-		
-		EmployeeDAO eDao = new EmployeeDAO(connection, u.getCode());
-			
-		Quotation selectedQuotation = null;
+		int chosenQuotation = 0;
 		try {
-			selectedQuotation = eDao.returnSelectedQuotation(chosenQuotation);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			chosenQuotation = Integer.parseInt(request.getParameter("selectedQuotation"));	
+			
+			EmployeeDAO eDao = new EmployeeDAO(connection, u.getCode());
+				
+			Quotation selectedQuotation = null;
+			try {
+				selectedQuotation = eDao.returnSelectedQuotation(chosenQuotation);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			String path = "/WEB-INF/PriceQuotation.html";
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("selectedQuotation", selectedQuotation);
+			templateEngine.process(path, ctx, response.getWriter());
+		} catch(Exception e) {
+			System.out.println("nasty client, no quotations available");
+			String ctxpath = getServletContext().getContextPath();
+			String path = ctxpath + "/GoToHomeEmployee";
+			System.out.println("path : " + path);
+			response.sendRedirect(path);
 		}
-		
-		String path = "/WEB-INF/PriceQuotation.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("selectedQuotation", selectedQuotation);
-		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {

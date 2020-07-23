@@ -102,7 +102,7 @@ public class CreateQuotation extends HttpServlet {
 
 		String ctxpath = getServletContext().getContextPath();
 		String path = ctxpath + "/GoToHomeClient";
-		
+		System.out.println("path : " + path);
 		if (productCode != null) {
 			
 			if (clientCode != null) { 
@@ -137,7 +137,7 @@ public class CreateQuotation extends HttpServlet {
 			else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing client code");
 		}
 		else response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing product code");
-			
+		System.out.println("test");
 	}
 
 

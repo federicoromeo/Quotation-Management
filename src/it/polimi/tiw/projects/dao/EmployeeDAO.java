@@ -29,13 +29,10 @@ public class EmployeeDAO {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					try {
-						q.setPrice(result.getInt("price"));
-					} catch(Exception e) {
-						q.setPrice(0);
-					}
+					q.setPrice(result.getInt("price"));
 					q.setEmployeeCode(this.id);
 					q.setClientCode(result.getString("client_code"));
+					q.setProductCode(result.getInt("product_code"));
 					myQuotations.add(q);
 				}
 			}
