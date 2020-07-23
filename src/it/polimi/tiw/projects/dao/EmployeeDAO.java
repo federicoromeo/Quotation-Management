@@ -29,7 +29,7 @@ public class EmployeeDAO {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					q.setPrice(Float.parseFloat(result.getString("price")));
+					q.setPrice(Integer.parseInt(result.getString("price")));
 					q.setEmployeeCode(result.getString("employeeCode"));
 					if(!result.getString("clientCode").equals(null))
 						q.setClientCode(result.getString("clientCode"));
@@ -53,7 +53,7 @@ public class EmployeeDAO {
 				while (result.next()) {
 					Quotation q = new Quotation();
 					q.setCode(result.getInt("code"));
-					q.setPrice(Float.parseFloat(result.getString("price")));
+					q.setPrice(Integer.parseInt(result.getString("price")));
 					if(!result.getString("clientCode").equals(null))
 						q.setClientCode(result.getString("clientCode"));
 					neverAssignedQuotations.add(q);

@@ -16,7 +16,7 @@
 	<form th:action="@{/CreateQuotation}" th:object="${form}" method="POST">
 	
 		<fieldset>
-			<legend>Choose a Product and select al least one Option:</legend>
+			<legend>Choose a Product and select at least one Option:</legend>
 			
  			   	<div th:each="p: ${products}">
  			   	
@@ -29,7 +29,21 @@
 		
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
+		
 	</form>
+		
+		
+		
+		<fieldset>
+			
+			<h2>My Quotations:</h2>
+		
+			<ul>
+				<li th:each="q: ${myQuotations}"  th:text="${q.code}"  th:value="${q.code}"> </li>
+			</ul>
+			
+		</fieldset>	
+		
 
 </body>
 </html>
