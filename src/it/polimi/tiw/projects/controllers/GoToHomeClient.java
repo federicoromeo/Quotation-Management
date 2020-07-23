@@ -88,7 +88,7 @@ public class GoToHomeClient extends HttpServlet {
 		try {
 			myQuotations = cDAO.findMyQuotations();
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database aaaaaaaaaaa extraction");
+			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in client's quotations database extraction");
 		} catch (NullPointerException ex) {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "my quot null");
 		}
