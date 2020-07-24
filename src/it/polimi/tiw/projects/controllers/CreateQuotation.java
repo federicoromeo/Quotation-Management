@@ -86,23 +86,27 @@ public class CreateQuotation extends HttpServlet {
 			}
 		}
 		////////////////////////////////////////
+		String ctxpath = getServletContext().getContextPath();
+		String path = ctxpath + "/GoToHomeClient";
 		
 		String[] selectedOptions = request.getParameterValues("optionsList");
-		Integer productCode = Integer.parseInt(request.getParameter("productCode"));
+		Integer productCode = null;
+		try {
+			productCode = Integer.parseInt(request.getParameter("productCode"));
+		} catch(Exception e) {
+			response.sendRedirect(path);
+			return;
+		}
 		String clientCode = request.getParameter("clientCode");
+		if(!notEmptyOptions(selectedOptions)) {
+			response.sendRedirect(path);
+			return;
+		}
 		int[] selectedOptionsInt = new int[selectedOptions.length];
-		
-		System.out.println("prod : " + productCode);
-		//System.out.println("opt code: " + optionCode);
-		System.out.println("cli : " + clientCode);
-
 		boolean isValid = false;
 		
 		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
 
-		String ctxpath = getServletContext().getContextPath();
-		String path = ctxpath + "/GoToHomeClient";
-		System.out.println("path : " + path);
 		if (productCode != null) {
 			
 			if (clientCode != null) { 
@@ -144,6 +148,9 @@ public class CreateQuotation extends HttpServlet {
 	// check if the user selected options non belonging to the selected product
 	private boolean checkInput(int[] selectedOptionsInt, int rightProductCode, ClientDAO cDAO) {
 
+		if(selectedOptionsInt.length==0 || selectedOptionsInt == null) {
+			return false;
+		}
 		int j = 0;
 		while( j < selectedOptionsInt.length ) {
 			
@@ -154,6 +161,13 @@ public class CreateQuotation extends HttpServlet {
 				return false;
 			}
 			j++;
+		}
+		return true;
+	}
+	
+	private boolean notEmptyOptions(String[] options) {
+		if(options==null || options.length==0) {
+			return false;
 		}
 		return true;
 	}
