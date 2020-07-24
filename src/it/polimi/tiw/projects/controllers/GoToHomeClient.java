@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ import it.polimi.tiw.projects.beans.Quotation;
 import it.polimi.tiw.projects.dao.ClientDAO;
 
 @WebServlet("/GoToHomeClient")
+@MultipartConfig
 public class GoToHomeClient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
@@ -63,22 +65,11 @@ public class GoToHomeClient extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("user");
+		// FILTER	
 		
-		System.out.println("sono in GoToHomeClient");
-		String loginpath = getServletContext().getContextPath() + "/index.html";
-		User u = null;
-		HttpSession s = request.getSession(); 
-		System.out.println("user(gotoclient) : " + s.getAttribute("user").toString());
-		if (s.isNew() || s.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		} else {
-			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("client")) {
-				response.sendRedirect(loginpath);
-				return;
-			}
-		}
 		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
 		
 		List<Quotation> myQuotations = new ArrayList<>();

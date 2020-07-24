@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Login page</title>
-<link rel="stylesheet" type="text/css" media="all" href="CSS/login.css" th:href="@{/css/login.css}"/>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+	<meta charset="ISO-8859-1">
+	<title>Login page</title>
+	<link rel="stylesheet" type="text/css" media="all" href="CSS/login.css" th:href="@{/css/login.css}"/>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 	<h1>Welcome to the quotation management application</h1>
 	<div id="login-box">
-		<form action="CheckLogin" method="POST">
-		<label>username:</label> <input type="text" name="username"> <br>
-		<label>password:</label> <input type="password" name="password"><br> 
-		<input id="submit-button" type="submit" value="login">
-	</form>
+		<form th:action="@{/CheckLogin}" method="POST">
+			<label>username:</label> <input type="text" name="username"> <br>
+			<label>password:</label> <input type="password" name="password"><br> 
+			<input id="submit-button" type="submit" value="login">
+		</form>
 	</div>
-
-</body>
+</head>
 </html>
