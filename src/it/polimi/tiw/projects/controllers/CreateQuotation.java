@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import it.polimi.tiw.projects.dao.ClientDAO;
 import it.polimi.tiw.projects.dao.ProductDAO;
 
 @WebServlet("/CreateQuotation")
+@MultipartConfig
 public class CreateQuotation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
@@ -65,8 +67,6 @@ public class CreateQuotation extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		
-		User u = null;
-				
 		// FILTER	
 		
 		String[] selectedOptions = request.getParameterValues("optionsList");
@@ -80,6 +80,9 @@ public class CreateQuotation extends HttpServlet {
 
 		boolean isValid = false;
 		
+		HttpSession session = ((HttpServletRequest) request).getSession();
+        User u = (User) session.getAttribute("user");
+
 		ClientDAO cDAO = new ClientDAO(connection, u.getCode());
 
 		String ctxpath = getServletContext().getContextPath();

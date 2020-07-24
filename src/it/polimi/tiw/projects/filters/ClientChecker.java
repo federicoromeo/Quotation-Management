@@ -27,9 +27,8 @@ public class ClientChecker implements Filter {
 
         String loginPath = request.getServletContext().getContextPath() + "/index.html";
 
-        HttpSession session = ((HttpServletRequest) request).getSession();
-        User user;
-        user = (User) session.getAttribute("user");
+        HttpSession session = servletRequest.getSession();
+        User user = (User) session.getAttribute("user");
 
         //role
         if (!user.getRole().equals("client")){

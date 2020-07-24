@@ -27,8 +27,7 @@ public class EmployeeChecker implements Filter {
         String loginPath = request.getServletContext().getContextPath() + "/index.html";
 
         HttpSession session = ((HttpServletRequest) request).getSession();
-        User user;
-        user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
 
         //role
         if (!user.getRole().equals("employee")){

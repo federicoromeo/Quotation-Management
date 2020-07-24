@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Login page</title>
+<title>Login Page</title>
 </head>
 <body>
 	<h1>Welcome to the quotation management application</h1>
-	<form action="CheckLogin" method="POST">
+	<form th:action="@{/CheckLogin}" method="POST">
 		username: <input type="text" name="username"> <br>
 		password: <input type="password" name="password"><br> 
 				  <input type="submit" value="login">

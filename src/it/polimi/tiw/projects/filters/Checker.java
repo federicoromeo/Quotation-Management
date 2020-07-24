@@ -28,6 +28,10 @@ public class Checker implements Filter {
         String loginPath = servletRequest.getServletContext().getContextPath() + "/index.html";
 
         HttpSession session = servletRequest.getSession();
+        
+        System.out.println(session.isNew());
+        System.out.println(session.getAttribute("user") == null);
+        System.out.println(session.getAttribute("user"));
         if (session.isNew() || session.getAttribute("user") == null) {
             servletResponse.sendRedirect(loginPath);
             return;
