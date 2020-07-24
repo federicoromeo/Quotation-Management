@@ -83,9 +83,6 @@ public class GoToHomeClient extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "my quot null");
 		}
 		
-		for(Quotation q: myQuotations) {
-			System.out.println("quot: "+q.getCode()+"  "+ q.getClientCode() + " empc: "+ q.getEmployeeCode()+ " price" +q.getPrice());
-		}
 		try {
 			availableProducts = cDAO.selectAvailableProducts();
 		} catch (SQLException e) {
@@ -93,16 +90,9 @@ public class GoToHomeClient extends HttpServlet {
 		}
 		
 		for(Product p: availableProducts) {
-			
-			System.out.println("for product: "+ p.getCode() +" :");
-			
 			p.setOptionsList(cDAO.selectAvailableOptions(p));
-			
-			int i= 1;
-			for(Option o: p.getOptionsList()) {
-				System.out.println("option "+i+"  : "+ o.getName());
-				i++;
-			}
+			p.setImage(cDAO.getImageFromDB(p.getCode()));
+			//System.out.println(p.getImage());
 		}
 		
 		String path = "/WEB-INF/HomeClient.html";
@@ -111,7 +101,6 @@ public class GoToHomeClient extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("myQuotations", myQuotations);
 		ctx.setVariable("products", availableProducts);
-		//ctx.setVariable("options", availableOptions);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

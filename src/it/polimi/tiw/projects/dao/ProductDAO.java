@@ -5,9 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import it.polimi.tiw.projects.beans.Product;
-import it.polimi.tiw.projects.beans.Quotation;
-
 public class ProductDAO {
 
 	private String code;
@@ -22,7 +19,7 @@ public class ProductDAO {
 
 	public String findProduct() throws SQLException{
 		
-		String query = "SELECT code FROM project_db.product WHERE name=?";
+		String query = "SELECT code FROM product WHERE name=?";
 		String code = "not found";
 		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {

@@ -3,12 +3,14 @@ package it.polimi.tiw.projects.dao;
 import java.io.FileInputStream;
 
 import java.io.FileNotFoundException;
+import java.sql.Blob;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -129,6 +131,30 @@ public class ClientDAO {
 			e.printStackTrace();
 		}
 		return rightCode;
+	}
+
+	//get images from db
+	public String getImageFromDB(int productCode) {
+	
+		String query = "SELECT image FROM product WHERE code =?";
+		String image = null;
+		
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setInt(1, productCode);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					Blob blob = result.getBlob("image");
+					byte[] imageBytes = blob.getBytes(1, (int) blob.length());
+					image = Base64.getEncoder().encodeToString(imageBytes);
+					System.out.println("image: "+ image);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return image;
+		//return image;
 	}
 	
 				

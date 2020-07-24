@@ -26,7 +26,7 @@ public class EmployeeChecker implements Filter {
 
         String loginPath = request.getServletContext().getContextPath() + "/index.html";
 
-        HttpSession session = ((HttpServletRequest) request).getSession();
+        HttpSession session = servletRequest.getSession();
         User user = (User) session.getAttribute("user");
 
         //role
@@ -40,6 +40,6 @@ public class EmployeeChecker implements Filter {
 
     @Override
     public void destroy() {
-
     }
+    
 }

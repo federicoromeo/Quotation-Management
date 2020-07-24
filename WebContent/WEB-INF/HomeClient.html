@@ -22,7 +22,7 @@
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-	<h1>Welcome to the Client's Home Page, <span th:text="${session.user.code}" ></span>  </h1>
+	<h1>Welcome to the Client's Home Page, <span th:text="${session.user.code + '!'}" ></span>  </h1>
 	
 	
 	<p>Please use the form below to enter a new Quotation</p>
@@ -32,11 +32,10 @@
 			<h3>Choose a Product and select at least one Option:</h3>
 			
  			   	<div th:each="p: ${products}">
- 			   	
- 			   		<input type="radio"    th:name="productCode" th:value="${p.code}" th:text="${p.name +'('+ p.code + ')'}">
+ 			   		<input type="radio"    th:name="productCode" th:value="${p.code}" th:text="${p.name +'[productCode:'+ p.code + ']'}">
  			 	  	<input type="checkbox" th:name="optionsList" th:value="${o.code}" th:each="o: ${p.optionsList}" th:text="${o.name}"> 
- 			   
- 			   	</div>	
+					<img   th:src="@{'data:image/png;base64,'+${p.image}}" alt="" /> 	 
+			  	</div>	
  			   		   			
     	</fieldset>
 		
