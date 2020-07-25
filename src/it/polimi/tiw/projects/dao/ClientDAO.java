@@ -1,8 +1,6 @@
 package it.polimi.tiw.projects.dao;
 
-import java.io.FileInputStream;
 
-import java.io.FileNotFoundException;
 import java.sql.Blob;
 import java.sql.Connection;
 
@@ -12,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Random;
 
 import it.polimi.tiw.projects.beans.Option;
 import it.polimi.tiw.projects.beans.Product;

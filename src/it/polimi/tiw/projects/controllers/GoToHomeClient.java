@@ -25,7 +25,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.User;
-import it.polimi.tiw.projects.beans.Option;
 import it.polimi.tiw.projects.beans.Product;
 import it.polimi.tiw.projects.beans.Quotation;
 import it.polimi.tiw.projects.dao.ClientDAO;

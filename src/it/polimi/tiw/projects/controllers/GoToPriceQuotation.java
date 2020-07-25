@@ -3,7 +3,6 @@ package it.polimi.tiw.projects.controllers;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.sql.Connection;
 
 import javax.servlet.ServletContext;
@@ -24,7 +23,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.polimi.tiw.projects.beans.Quotation;
 import it.polimi.tiw.projects.beans.User;
 import it.polimi.tiw.projects.dao.EmployeeDAO;
-import it.polimi.tiw.projects.dao.QuotationDAO;
 
 
 @WebServlet("/GoToPriceQuotation")

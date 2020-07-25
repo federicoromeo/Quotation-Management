@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,10 +20,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.tiw.projects.beans.User;
-import it.polimi.tiw.projects.beans.Option;
-import it.polimi.tiw.projects.beans.Product;
 import it.polimi.tiw.projects.dao.ClientDAO;
-import it.polimi.tiw.projects.dao.ProductDAO;
 
 @WebServlet("/CreateQuotation")
 @MultipartConfig
