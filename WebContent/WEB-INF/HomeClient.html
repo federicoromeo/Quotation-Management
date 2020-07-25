@@ -3,9 +3,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Client's home</title>
-<!--link rel="stylesheet" type="text/css" media="all" href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" /-->
+<link rel="stylesheet" type="text/css" media="all" href="../CSS/client.css" th:href="@{/css/client.css}" >
 
 <style>
+	img{
+		width:100px;
+		height:100px;
+	}
+	body{
+		font-family: 'Roboto', sans-serif;
+	}
 	table, th, td {
 	  border: 1px solid black;
 	  border-collapse: collapse;
@@ -34,7 +41,7 @@
  			   	<div th:each="p: ${products}">
  			   		<input type="radio"    th:name="productCode" th:value="${p.code}" th:text="${p.name +'[productCode:'+ p.code + ']'}">
  			 	  	<input type="checkbox" th:name="optionsList" th:value="${o.code}" th:each="o: ${p.optionsList}" th:text="${o.name}"> 
-					<img   th:src="@{'data:image/png;base64,'+${p.image}}" alt="" /> 	 
+					<img  th:src="@{'data:image/png;base64,'+${p.image}}" alt="" /> 	 
 			  	</div>	
  			   		   			
     	</fieldset>

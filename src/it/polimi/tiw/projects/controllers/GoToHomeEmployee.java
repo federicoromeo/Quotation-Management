@@ -94,28 +94,24 @@ public class GoToHomeEmployee extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		int selectedPrice = 0;
+		String price = "";
 		try {
-			selectedPrice = Integer.parseInt(request.getParameter("price"));
+			price = request.getParameter("price");
+			if(price.equals("")) {
+				response.sendRedirect(getServletContext().getContextPath() +"/GoToPriceQuotation");
+				return;
+			}
+			selectedPrice = Integer.parseInt(price);
 		}
-		catch(Exception ex) {
-			response.sendRedirect(getServletContext().getContextPath() +"/WEB-INF/PriceQuotation.html");
+		catch(NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			response.sendRedirect(getServletContext().getContextPath() +"/GoToPriceQuotation");
+			return;
 		}
 		
 		User u = null;
 		HttpSession s = request.getSession();
-		if (s.isNew() || s.getAttribute("user") == null) {
-			response.sendRedirect(getServletContext().getContextPath() +"index.html");
-			return;
-		} else {
-			u = (User) s.getAttribute("user");
-			if (!u.getRole().equals("employee")) {
-				response.sendRedirect(getServletContext().getContextPath() +"index.html");
-				return;
-			}
-		}
-		
-		System.out.println("ci sono         oooo");
-
+		u = (User) s.getAttribute("user");
 		
 		EmployeeDAO eDAO = new EmployeeDAO(connection, u.getCode());
 		int quotationCode = Integer.parseInt(request.getParameter("selectedQuotationCode"));
