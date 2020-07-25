@@ -33,8 +33,9 @@
 			
  			   	<div th:each="p: ${products}">
  			   		<input type="radio"    th:name="productCode" th:value="${p.code}" th:text="${p.name +'[productCode:'+ p.code + ']'}">
- 			 	  	<input type="checkbox" th:name="optionsList" th:value="${o.code}" th:each="o: ${p.optionsList}" th:text="${o.name}"> 
-					<img   th:src="@{'data:image/png;base64,'+${p.image}}" alt="" /> 	 
+ 			 	  	<input type="checkbox" th:name="optionsList" th:value="${o.code}" th:each="o: ${p.optionsList}" th:text="${o.name}">
+ 			 	  	<!-- >select>	<option value="Normal" selected>Normal</option>   <option value="On Sale">On Sale</option>	</select-->
+					<img   th:src="@{'data:image/png;base64,'+${p.image}}" alt="" /><br> 	 
 			  	</div>	
  			   		   			
     	</fieldset>
@@ -42,8 +43,7 @@
 		<input type="hidden" name="clientCode" th:value="${session.user.code}">
 		<input type="submit" name="submit" value="Submit Quotation">
 		
-	</form>
-		
+	</form>	
 		
 		
 		<fieldset>
