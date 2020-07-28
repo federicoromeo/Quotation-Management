@@ -102,6 +102,10 @@ public class GoToHomeEmployee extends HttpServlet {
 				return;
 			}
 			selectedPrice = Integer.parseInt(price);
+			if(selectedPrice<=0) {
+				response.sendRedirect(getServletContext().getContextPath() +"/GoToPriceQuotation");
+				return;
+			}
 		}
 		catch(NumberFormatException ex) {
 			System.out.println(ex.getMessage());
