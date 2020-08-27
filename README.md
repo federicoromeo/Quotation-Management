@@ -21,3 +21,6 @@ non ancora associati a nessuno, compare una pagina PREZZA PREVENTIVO che mostra 
 e del preventivo e una form per inserire il prezzo del preventivo. Quando l’impiegato inserisce il prezzo e invia i
 dati con il bottone INVIA PREZZO, compare di nuovo la pagina HOME PAGE IMPIEGATO con gli elenchi dei
 preventivi aggiornati.
+
+
+[Missing: db dump]
