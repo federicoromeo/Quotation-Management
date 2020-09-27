@@ -3,24 +3,24 @@
 Project of "Tecnologie informatiche per il WEB" .
 
 
-Versione pure HTML
+PURE HTML + thymeleaf VERSION
 
-Un’applicazione web consente la gestione di richieste di preventivi per prodotti personalizzati. Un preventivo è
-associato a un prodotto, al cliente che l’ha richiesto e all’impiegato che l’ha gestito. Il preventivo comprende una
-o più opzioni per il prodotto a cui è associato, che devono essere tra quelle disponibili per il prodotto. Un
-prodotto ha un codice, un’immagine e un nome. Un’opzione ha un codice, un tipo (“normale”, “in offerta”) e un
-nome. Un preventivo ha un prezzo, definito dall’impiegato. Quando l’utente (cliente o impiegato) accede
-all’applicazione, appare una LOGIN PAGE, mediante la quale l’utente si autentica con username e password.
-Quando un cliente fa login, accede a una pagina HOME PAGE CLIENTE che contiene una form per creare un
-preventivo e l’elenco dei preventivi creati dal cliente. Mediante la form l’utente per prima cosa sceglie il prodotto;
-scelto il prodotto, la form mostra le opzioni di quel prodotto. L’utente sceglie le opzioni (almeno una) e conferma
-l’invio del preventivo mediante il bottone INVIA PREVENTIVO. Quando un impiegato fa login, accede a una pagina
-HOME PAGE IMPIEGATO che contiene l’elenco dei preventivi gestiti da lui in precedenza e quello dei preventivi
-non ancora associati a nessun impiegato. Quando l’impiegato seleziona un elemento dall’elenco dei preventivi
-non ancora associati a nessuno, compare una pagina PREZZA PREVENTIVO che mostra i dati del cliente (username)
-e del preventivo e una form per inserire il prezzo del preventivo. Quando l’impiegato inserisce il prezzo e invia i
-dati con il bottone INVIA PREZZO, compare di nuovo la pagina HOME PAGE IMPIEGATO con gli elenchi dei
-preventivi aggiornati.
+A web application allows the management of requests for quotes for customized products. A quote is
+associated with a product, with the customer who requested it and with the employee who managed it. The quote includes a
+or more options for the product it is associated with, which must be among those available for the product. A
+product has a code, an image and a name. An option has a code, a type ("normal", "on sale") and a
+name. A quote has a price, defined by the employee. When the user (client or employee) logs in
+to the application, a LOGIN PAGE appears, through which the user authenticates himself with a username and password.
+When a customer logs in, they access a CUSTOMER HOME PAGE page that contains a form to create a
+estimate and the list of estimates created by the customer. Using the form, the user first chooses the product;
+chosen the product, the form shows the options of that product. The user chooses the options (at least one) and confirms
+sending the quote using the SEND QUOTE button. When an employee logs in, they go to a page
+EMPLOYEE HOME PAGE which contains the list of estimates previously managed by him and that of estimates
+not yet associated with any employee. When the employee selects an item from the list of estimates
+not yet associated with anyone, a QUOTE PRICE page appears showing the customer data (username)
+and the quote and a form to enter the quote price. When the employee enters the price and sends the
+data with the SEND PRICE button, the EMPLOYEE HOME PAGE page appears again with the lists of
+updated estimates.
 
 
 [Missing: db dump]
