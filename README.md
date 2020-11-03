@@ -3,7 +3,7 @@
 Project of "Tecnologie informatiche per il WEB" .
 
 
-PURE HTML + thymeleaf VERSION
+#### PURE HTML + thymeleaf VERSION
 
 A web application allows the management of requests for quotes for customized products. A quote is
 associated with a product, with the customer who requested it and with the employee who managed it. The quote includes a
