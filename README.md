@@ -21,6 +21,3 @@ not yet associated with anyone, a QUOTE PRICE page appears showing the customer 
 and the quote and a form to enter the quote price. When the employee enters the price and sends the
 data with the SEND PRICE button, the EMPLOYEE HOME PAGE page appears again with the lists of
 updated estimates.
-
-
-[Missing: db dump]
